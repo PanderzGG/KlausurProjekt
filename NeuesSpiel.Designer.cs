@@ -53,10 +53,10 @@
             tabControlNeuesSpiel.Controls.Add(tabPageNeuesSpiel);
             tabControlNeuesSpiel.Controls.Add(tabPageNeuerSpieler);
             tabControlNeuesSpiel.Controls.Add(tabPageVorhandenerSpieler);
-            tabControlNeuesSpiel.Location = new Point(12, 12);
+            tabControlNeuesSpiel.Location = new Point(12, 10);
             tabControlNeuesSpiel.Name = "tabControlNeuesSpiel";
             tabControlNeuesSpiel.SelectedIndex = 0;
-            tabControlNeuesSpiel.Size = new Size(984, 657);
+            tabControlNeuesSpiel.Size = new Size(680, 550);
             tabControlNeuesSpiel.TabIndex = 0;
             tabControlNeuesSpiel.SelectedIndexChanged += tabControlNeuesSpiel_SelectedIndexChanged;
             // 
@@ -69,16 +69,17 @@
             tabPageNeuesSpiel.Location = new Point(4, 24);
             tabPageNeuesSpiel.Name = "tabPageNeuesSpiel";
             tabPageNeuesSpiel.Padding = new Padding(3);
-            tabPageNeuesSpiel.Size = new Size(976, 629);
+            tabPageNeuesSpiel.Size = new Size(672, 522);
             tabPageNeuesSpiel.TabIndex = 0;
             tabPageNeuesSpiel.Text = "Neues Spiel";
             tabPageNeuesSpiel.UseVisualStyleBackColor = true;
             // 
             // btnVorhandenerSpieler
             // 
-            btnVorhandenerSpieler.Location = new Point(524, 346);
+            btnVorhandenerSpieler.Font = new Font("Segoe UI", 18F);
+            btnVorhandenerSpieler.Location = new Point(386, 358);
             btnVorhandenerSpieler.Name = "btnVorhandenerSpieler";
-            btnVorhandenerSpieler.Size = new Size(150, 50);
+            btnVorhandenerSpieler.Size = new Size(250, 75);
             btnVorhandenerSpieler.TabIndex = 3;
             btnVorhandenerSpieler.Text = "Vorhandener Spieler";
             btnVorhandenerSpieler.UseVisualStyleBackColor = true;
@@ -86,9 +87,10 @@
             // 
             // btnNeuerSpieler
             // 
-            btnNeuerSpieler.Location = new Point(302, 346);
+            btnNeuerSpieler.Font = new Font("Segoe UI", 18F);
+            btnNeuerSpieler.Location = new Point(76, 358);
             btnNeuerSpieler.Name = "btnNeuerSpieler";
-            btnNeuerSpieler.Size = new Size(150, 50);
+            btnNeuerSpieler.Size = new Size(250, 75);
             btnNeuerSpieler.TabIndex = 2;
             btnNeuerSpieler.Text = "Neuer Spieler";
             btnNeuerSpieler.UseVisualStyleBackColor = true;
@@ -98,7 +100,7 @@
             // 
             lbNeuerSpieler.AutoSize = true;
             lbNeuerSpieler.Font = new Font("Segoe UI", 18F);
-            lbNeuerSpieler.Location = new Point(322, 218);
+            lbNeuerSpieler.Location = new Point(190, 230);
             lbNeuerSpieler.Name = "lbNeuerSpieler";
             lbNeuerSpieler.Size = new Size(332, 32);
             lbNeuerSpieler.TabIndex = 1;
@@ -108,7 +110,7 @@
             // 
             lbNeuesSpiel.AutoSize = true;
             lbNeuesSpiel.Font = new Font("Segoe UI", 46F);
-            lbNeuesSpiel.Location = new Point(311, 78);
+            lbNeuesSpiel.Location = new Point(179, 90);
             lbNeuesSpiel.Name = "lbNeuesSpiel";
             lbNeuesSpiel.Size = new Size(354, 84);
             lbNeuesSpiel.TabIndex = 0;
@@ -122,7 +124,7 @@
             tabPageNeuerSpieler.Location = new Point(4, 24);
             tabPageNeuerSpieler.Name = "tabPageNeuerSpieler";
             tabPageNeuerSpieler.Padding = new Padding(3);
-            tabPageNeuerSpieler.Size = new Size(976, 629);
+            tabPageNeuerSpieler.Size = new Size(672, 522);
             tabPageNeuerSpieler.TabIndex = 1;
             tabPageNeuerSpieler.Text = "Neuer Spieler";
             tabPageNeuerSpieler.UseVisualStyleBackColor = true;
@@ -130,7 +132,7 @@
             // btnSpielerNeuSpielen
             // 
             btnSpielerNeuSpielen.Font = new Font("Segoe UI", 18F);
-            btnSpielerNeuSpielen.Location = new Point(643, 231);
+            btnSpielerNeuSpielen.Location = new Point(376, 275);
             btnSpielerNeuSpielen.Name = "btnSpielerNeuSpielen";
             btnSpielerNeuSpielen.Size = new Size(150, 50);
             btnSpielerNeuSpielen.TabIndex = 2;
@@ -141,20 +143,20 @@
             // tbBenutzername
             // 
             tbBenutzername.Font = new Font("Segoe UI", 36F);
-            tbBenutzername.Location = new Point(501, 106);
+            tbBenutzername.Location = new Point(146, 198);
             tbBenutzername.Name = "tbBenutzername";
-            tbBenutzername.Size = new Size(292, 71);
+            tbBenutzername.Size = new Size(380, 71);
             tbBenutzername.TabIndex = 1;
             // 
             // lbSpielerName
             // 
             lbSpielerName.AutoSize = true;
-            lbSpielerName.Font = new Font("Segoe UI", 46F);
-            lbSpielerName.Location = new Point(54, 93);
+            lbSpielerName.Font = new Font("Segoe UI", 36F);
+            lbSpielerName.Location = new Point(29, 104);
             lbSpielerName.Name = "lbSpielerName";
-            lbSpielerName.Size = new Size(441, 84);
+            lbSpielerName.Size = new Size(183, 65);
             lbSpielerName.TabIndex = 0;
-            lbSpielerName.Text = "Benutzername:";
+            lbSpielerName.Text = "Spieler:";
             // 
             // tabPageVorhandenerSpieler
             // 
@@ -164,7 +166,7 @@
             tabPageVorhandenerSpieler.Location = new Point(4, 24);
             tabPageVorhandenerSpieler.Name = "tabPageVorhandenerSpieler";
             tabPageVorhandenerSpieler.Padding = new Padding(3);
-            tabPageVorhandenerSpieler.Size = new Size(976, 629);
+            tabPageVorhandenerSpieler.Size = new Size(672, 522);
             tabPageVorhandenerSpieler.TabIndex = 2;
             tabPageVorhandenerSpieler.Text = "Spieler Auswählen";
             tabPageVorhandenerSpieler.UseVisualStyleBackColor = true;
@@ -172,7 +174,7 @@
             // btnSpielerVorhandenSpielen
             // 
             btnSpielerVorhandenSpielen.Font = new Font("Segoe UI", 18F);
-            btnSpielerVorhandenSpielen.Location = new Point(449, 198);
+            btnSpielerVorhandenSpielen.Location = new Point(439, 290);
             btnSpielerVorhandenSpielen.Name = "btnSpielerVorhandenSpielen";
             btnSpielerVorhandenSpielen.Size = new Size(150, 50);
             btnSpielerVorhandenSpielen.TabIndex = 2;
@@ -182,9 +184,10 @@
             // 
             // cbBenutzernamen
             // 
+            cbBenutzernamen.FlatStyle = FlatStyle.Flat;
             cbBenutzernamen.Font = new Font("Segoe UI", 36F);
             cbBenutzernamen.FormattingEnabled = true;
-            cbBenutzernamen.Location = new Point(346, 94);
+            cbBenutzernamen.Location = new Point(60, 211);
             cbBenutzernamen.Name = "cbBenutzernamen";
             cbBenutzernamen.Size = new Size(529, 73);
             cbBenutzernamen.TabIndex = 1;
@@ -192,10 +195,10 @@
             // lbSpieler
             // 
             lbSpieler.AutoSize = true;
-            lbSpieler.Font = new Font("Segoe UI", 46F);
-            lbSpieler.Location = new Point(107, 83);
+            lbSpieler.Font = new Font("Segoe UI", 36F);
+            lbSpieler.Location = new Point(16, 134);
             lbSpieler.Name = "lbSpieler";
-            lbSpieler.Size = new Size(233, 84);
+            lbSpieler.Size = new Size(183, 65);
             lbSpieler.TabIndex = 0;
             lbSpieler.Text = "Spieler:";
             // 
@@ -203,7 +206,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1008, 681);
+            ClientSize = new Size(704, 571);
             Controls.Add(tabControlNeuesSpiel);
             Name = "NeuesSpiel";
             Text = "NeuesSpiel";

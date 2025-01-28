@@ -46,9 +46,10 @@
             // 
             // btnNeuesSpiel
             // 
-            btnNeuesSpiel.Location = new Point(429, 192);
+            btnNeuesSpiel.Font = new Font("Segoe UI", 27F);
+            btnNeuesSpiel.Location = new Point(354, 171);
             btnNeuesSpiel.Name = "btnNeuesSpiel";
-            btnNeuesSpiel.Size = new Size(150, 50);
+            btnNeuesSpiel.Size = new Size(300, 100);
             btnNeuesSpiel.TabIndex = 1;
             btnNeuesSpiel.Text = "Neues Spiel";
             btnNeuesSpiel.UseVisualStyleBackColor = true;
@@ -56,18 +57,20 @@
             // 
             // btnHighscores
             // 
-            btnHighscores.Location = new Point(429, 290);
+            btnHighscores.Font = new Font("Segoe UI", 27F);
+            btnHighscores.Location = new Point(354, 350);
             btnHighscores.Name = "btnHighscores";
-            btnHighscores.Size = new Size(150, 50);
+            btnHighscores.Size = new Size(300, 100);
             btnHighscores.TabIndex = 2;
             btnHighscores.Text = "Highscores";
             btnHighscores.UseVisualStyleBackColor = true;
             // 
             // btnBeenden
             // 
-            btnBeenden.Location = new Point(429, 388);
+            btnBeenden.Font = new Font("Segoe UI", 27F);
+            btnBeenden.Location = new Point(354, 529);
             btnBeenden.Name = "btnBeenden";
-            btnBeenden.Size = new Size(150, 50);
+            btnBeenden.Size = new Size(300, 100);
             btnBeenden.TabIndex = 3;
             btnBeenden.Text = "Beenden";
             btnBeenden.UseVisualStyleBackColor = true;

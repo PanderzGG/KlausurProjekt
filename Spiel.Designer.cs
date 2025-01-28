@@ -54,8 +54,6 @@
             btnSpielbeginnen = new Button();
             btnFATZurueck = new Button();
             tabPageSpiel = new TabPage();
-            panelSpielTextOnly = new Panel();
-            panelSpielBildFrage = new Panel();
             panelSpielBildAntwort = new Panel();
             btnAntwortBildNext = new Button();
             groupBox1 = new GroupBox();
@@ -69,21 +67,23 @@
             rbBildAntwort1 = new RadioButton();
             lbAntwortBildFrageText = new Label();
             lbAntwortBildFrage = new Label();
+            panelSpielBildFrage = new Panel();
             rbFlaggeAntwort = new GroupBox();
             btnFlaggeAntwortNext = new Button();
             rbAntwortFlagge4 = new RadioButton();
             rbAntwortFlagge3 = new RadioButton();
             rbAntwortFlagge2 = new RadioButton();
             rbAntwortFlagge1 = new RadioButton();
-            pictureBox1 = new PictureBox();
+            pbFrageFlagge = new PictureBox();
             lbFrageBildText = new Label();
             lbFrageBild = new Label();
+            panelSpielTextOnly = new Panel();
             groupBoxTextOnly = new GroupBox();
-            rbAntwort4 = new RadioButton();
-            rbAntwort3 = new RadioButton();
-            rbAntwort2 = new RadioButton();
-            rbAntwort1 = new RadioButton();
-            btnNext = new Button();
+            rbAntwortText4 = new RadioButton();
+            btnTextOnlyNext = new Button();
+            rbAntwortText3 = new RadioButton();
+            rbAntwortText2 = new RadioButton();
+            rbAntwortText1 = new RadioButton();
             lbFrageText = new Label();
             lbFrage = new Label();
             tabControlSpiel.SuspendLayout();
@@ -94,16 +94,16 @@
             panelAtnworttyp.SuspendLayout();
             panelFragentyp.SuspendLayout();
             tabPageSpiel.SuspendLayout();
-            panelSpielTextOnly.SuspendLayout();
-            panelSpielBildFrage.SuspendLayout();
             panelSpielBildAntwort.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAntwort4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort1).BeginInit();
+            panelSpielBildFrage.SuspendLayout();
             rbFlaggeAntwort.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbFrageFlagge).BeginInit();
+            panelSpielTextOnly.SuspendLayout();
             groupBoxTextOnly.SuspendLayout();
             SuspendLayout();
             // 
@@ -171,9 +171,9 @@
             checkBoxAfrica.Font = new Font("Segoe UI", 18F);
             checkBoxAfrica.Location = new Point(53, 37);
             checkBoxAfrica.Name = "checkBoxAfrica";
-            checkBoxAfrica.Size = new Size(93, 36);
+            checkBoxAfrica.Size = new Size(94, 36);
             checkBoxAfrica.TabIndex = 8;
-            checkBoxAfrica.Text = "Africa";
+            checkBoxAfrica.Text = "Afrika";
             checkBoxAfrica.UseVisualStyleBackColor = true;
             // 
             // checkBoxAusOz
@@ -393,6 +393,7 @@
             // 
             // tabPageSpiel
             // 
+            tabPageSpiel.Controls.Add(panelSpielBildAntwort);
             tabPageSpiel.Controls.Add(panelSpielBildFrage);
             tabPageSpiel.Controls.Add(panelSpielTextOnly);
             tabPageSpiel.Location = new Point(4, 24);
@@ -403,36 +404,13 @@
             tabPageSpiel.Text = "Spiel";
             tabPageSpiel.UseVisualStyleBackColor = true;
             // 
-            // panelSpielTextOnly
-            // 
-            panelSpielTextOnly.Controls.Add(groupBoxTextOnly);
-            panelSpielTextOnly.Controls.Add(btnNext);
-            panelSpielTextOnly.Controls.Add(lbFrageText);
-            panelSpielTextOnly.Controls.Add(lbFrage);
-            panelSpielTextOnly.Location = new Point(0, 0);
-            panelSpielTextOnly.Name = "panelSpielTextOnly";
-            panelSpielTextOnly.Size = new Size(964, 617);
-            panelSpielTextOnly.TabIndex = 0;
-            // 
-            // panelSpielBildFrage
-            // 
-            panelSpielBildFrage.Controls.Add(panelSpielBildAntwort);
-            panelSpielBildFrage.Controls.Add(rbFlaggeAntwort);
-            panelSpielBildFrage.Controls.Add(pictureBox1);
-            panelSpielBildFrage.Controls.Add(lbFrageBildText);
-            panelSpielBildFrage.Controls.Add(lbFrageBild);
-            panelSpielBildFrage.Location = new Point(12, 623);
-            panelSpielBildFrage.Name = "panelSpielBildFrage";
-            panelSpielBildFrage.Size = new Size(964, 617);
-            panelSpielBildFrage.TabIndex = 7;
-            // 
             // panelSpielBildAntwort
             // 
             panelSpielBildAntwort.Controls.Add(btnAntwortBildNext);
             panelSpielBildAntwort.Controls.Add(groupBox1);
             panelSpielBildAntwort.Controls.Add(lbAntwortBildFrageText);
             panelSpielBildAntwort.Controls.Add(lbAntwortBildFrage);
-            panelSpielBildAntwort.Location = new Point(0, 238);
+            panelSpielBildAntwort.Location = new Point(42, 623);
             panelSpielBildAntwort.Name = "panelSpielBildAntwort";
             panelSpielBildAntwort.Size = new Size(964, 617);
             panelSpielBildAntwort.TabIndex = 4;
@@ -564,6 +542,17 @@
             lbAntwortBildFrage.TabIndex = 0;
             lbAntwortBildFrage.Text = "Frage:";
             // 
+            // panelSpielBildFrage
+            // 
+            panelSpielBildFrage.Controls.Add(rbFlaggeAntwort);
+            panelSpielBildFrage.Controls.Add(pbFrageFlagge);
+            panelSpielBildFrage.Controls.Add(lbFrageBildText);
+            panelSpielBildFrage.Controls.Add(lbFrageBild);
+            panelSpielBildFrage.Location = new Point(0, 0);
+            panelSpielBildFrage.Name = "panelSpielBildFrage";
+            panelSpielBildFrage.Size = new Size(976, 629);
+            panelSpielBildFrage.TabIndex = 7;
+            // 
             // rbFlaggeAntwort
             // 
             rbFlaggeAntwort.Controls.Add(btnFlaggeAntwortNext);
@@ -586,6 +575,7 @@
             btnFlaggeAntwortNext.TabIndex = 4;
             btnFlaggeAntwortNext.Text = "Bestätigen";
             btnFlaggeAntwortNext.UseVisualStyleBackColor = true;
+            btnFlaggeAntwortNext.Click += btnFlaggeAntwortNext_Click;
             // 
             // rbAntwortFlagge4
             // 
@@ -635,13 +625,14 @@
             rbAntwortFlagge1.Text = "rbAntwortFlagge1";
             rbAntwortFlagge1.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // pbFrageFlagge
             // 
-            pictureBox1.Location = new Point(308, 136);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(350, 250);
-            pictureBox1.TabIndex = 2;
-            pictureBox1.TabStop = false;
+            pbFrageFlagge.Location = new Point(308, 136);
+            pbFrageFlagge.Name = "pbFrageFlagge";
+            pbFrageFlagge.Size = new Size(350, 250);
+            pbFrageFlagge.SizeMode = PictureBoxSizeMode.Zoom;
+            pbFrageFlagge.TabIndex = 2;
+            pbFrageFlagge.TabStop = false;
             // 
             // lbFrageBildText
             // 
@@ -663,77 +654,88 @@
             lbFrageBild.TabIndex = 0;
             lbFrageBild.Text = "Frage:";
             // 
+            // panelSpielTextOnly
+            // 
+            panelSpielTextOnly.Controls.Add(groupBoxTextOnly);
+            panelSpielTextOnly.Controls.Add(lbFrageText);
+            panelSpielTextOnly.Controls.Add(lbFrage);
+            panelSpielTextOnly.Location = new Point(0, 0);
+            panelSpielTextOnly.Name = "panelSpielTextOnly";
+            panelSpielTextOnly.Size = new Size(964, 617);
+            panelSpielTextOnly.TabIndex = 0;
+            // 
             // groupBoxTextOnly
             // 
-            groupBoxTextOnly.Controls.Add(rbAntwort4);
-            groupBoxTextOnly.Controls.Add(rbAntwort3);
-            groupBoxTextOnly.Controls.Add(rbAntwort2);
-            groupBoxTextOnly.Controls.Add(rbAntwort1);
+            groupBoxTextOnly.Controls.Add(rbAntwortText4);
+            groupBoxTextOnly.Controls.Add(btnTextOnlyNext);
+            groupBoxTextOnly.Controls.Add(rbAntwortText3);
+            groupBoxTextOnly.Controls.Add(rbAntwortText2);
+            groupBoxTextOnly.Controls.Add(rbAntwortText1);
             groupBoxTextOnly.Location = new Point(3, 278);
             groupBoxTextOnly.Name = "groupBoxTextOnly";
-            groupBoxTextOnly.Size = new Size(958, 210);
+            groupBoxTextOnly.Size = new Size(958, 322);
             groupBoxTextOnly.TabIndex = 7;
             groupBoxTextOnly.TabStop = false;
             groupBoxTextOnly.Text = "Antworten";
             // 
-            // rbAntwort4
+            // rbAntwortText4
             // 
-            rbAntwort4.AutoSize = true;
-            rbAntwort4.Font = new Font("Segoe UI", 27F);
-            rbAntwort4.Location = new Point(565, 128);
-            rbAntwort4.Name = "rbAntwort4";
-            rbAntwort4.Size = new Size(184, 52);
-            rbAntwort4.TabIndex = 5;
-            rbAntwort4.TabStop = true;
-            rbAntwort4.Text = "Antwort4";
-            rbAntwort4.UseVisualStyleBackColor = true;
+            rbAntwortText4.AutoSize = true;
+            rbAntwortText4.Font = new Font("Segoe UI", 27F);
+            rbAntwortText4.Location = new Point(565, 128);
+            rbAntwortText4.Name = "rbAntwortText4";
+            rbAntwortText4.Size = new Size(184, 52);
+            rbAntwortText4.TabIndex = 5;
+            rbAntwortText4.TabStop = true;
+            rbAntwortText4.Text = "Antwort4";
+            rbAntwortText4.UseVisualStyleBackColor = true;
             // 
-            // rbAntwort3
+            // btnTextOnlyNext
             // 
-            rbAntwort3.AutoSize = true;
-            rbAntwort3.Font = new Font("Segoe UI", 27F);
-            rbAntwort3.Location = new Point(210, 128);
-            rbAntwort3.Name = "rbAntwort3";
-            rbAntwort3.Size = new Size(184, 52);
-            rbAntwort3.TabIndex = 4;
-            rbAntwort3.TabStop = true;
-            rbAntwort3.Text = "Antwort3";
-            rbAntwort3.UseVisualStyleBackColor = true;
+            btnTextOnlyNext.Font = new Font("Segoe UI", 18F);
+            btnTextOnlyNext.Location = new Point(802, 266);
+            btnTextOnlyNext.Name = "btnTextOnlyNext";
+            btnTextOnlyNext.Size = new Size(150, 50);
+            btnTextOnlyNext.TabIndex = 6;
+            btnTextOnlyNext.Text = "Bestätigen";
+            btnTextOnlyNext.UseVisualStyleBackColor = true;
+            btnTextOnlyNext.Click += btnTextOnlyNext_Click;
             // 
-            // rbAntwort2
+            // rbAntwortText3
             // 
-            rbAntwort2.AutoSize = true;
-            rbAntwort2.Font = new Font("Segoe UI", 27F);
-            rbAntwort2.Location = new Point(565, 30);
-            rbAntwort2.Name = "rbAntwort2";
-            rbAntwort2.Size = new Size(184, 52);
-            rbAntwort2.TabIndex = 3;
-            rbAntwort2.TabStop = true;
-            rbAntwort2.Text = "Antwort2";
-            rbAntwort2.UseVisualStyleBackColor = true;
+            rbAntwortText3.AutoSize = true;
+            rbAntwortText3.Font = new Font("Segoe UI", 27F);
+            rbAntwortText3.Location = new Point(210, 128);
+            rbAntwortText3.Name = "rbAntwortText3";
+            rbAntwortText3.Size = new Size(184, 52);
+            rbAntwortText3.TabIndex = 4;
+            rbAntwortText3.TabStop = true;
+            rbAntwortText3.Text = "Antwort3";
+            rbAntwortText3.UseVisualStyleBackColor = true;
             // 
-            // rbAntwort1
+            // rbAntwortText2
             // 
-            rbAntwort1.AutoSize = true;
-            rbAntwort1.Font = new Font("Segoe UI", 27F);
-            rbAntwort1.Location = new Point(210, 30);
-            rbAntwort1.Name = "rbAntwort1";
-            rbAntwort1.Size = new Size(184, 52);
-            rbAntwort1.TabIndex = 2;
-            rbAntwort1.TabStop = true;
-            rbAntwort1.Text = "Antwort1";
-            rbAntwort1.UseVisualStyleBackColor = true;
+            rbAntwortText2.AutoSize = true;
+            rbAntwortText2.Font = new Font("Segoe UI", 27F);
+            rbAntwortText2.Location = new Point(565, 30);
+            rbAntwortText2.Name = "rbAntwortText2";
+            rbAntwortText2.Size = new Size(184, 52);
+            rbAntwortText2.TabIndex = 3;
+            rbAntwortText2.TabStop = true;
+            rbAntwortText2.Text = "Antwort2";
+            rbAntwortText2.UseVisualStyleBackColor = true;
             // 
-            // btnNext
+            // rbAntwortText1
             // 
-            btnNext.Font = new Font("Segoe UI", 18F);
-            btnNext.Location = new Point(677, 535);
-            btnNext.Name = "btnNext";
-            btnNext.Size = new Size(150, 50);
-            btnNext.TabIndex = 6;
-            btnNext.Text = "Bestätigen";
-            btnNext.UseVisualStyleBackColor = true;
-            btnNext.Visible = false;
+            rbAntwortText1.AutoSize = true;
+            rbAntwortText1.Font = new Font("Segoe UI", 27F);
+            rbAntwortText1.Location = new Point(210, 30);
+            rbAntwortText1.Name = "rbAntwortText1";
+            rbAntwortText1.Size = new Size(184, 52);
+            rbAntwortText1.TabIndex = 2;
+            rbAntwortText1.TabStop = true;
+            rbAntwortText1.Text = "Antwort1";
+            rbAntwortText1.UseVisualStyleBackColor = true;
             // 
             // lbFrageText
             // 
@@ -776,10 +778,6 @@
             panelFragentyp.ResumeLayout(false);
             panelFragentyp.PerformLayout();
             tabPageSpiel.ResumeLayout(false);
-            panelSpielTextOnly.ResumeLayout(false);
-            panelSpielTextOnly.PerformLayout();
-            panelSpielBildFrage.ResumeLayout(false);
-            panelSpielBildFrage.PerformLayout();
             panelSpielBildAntwort.ResumeLayout(false);
             panelSpielBildAntwort.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -788,9 +786,13 @@
             ((System.ComponentModel.ISupportInitialize)pbAntwort3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort1).EndInit();
+            panelSpielBildFrage.ResumeLayout(false);
+            panelSpielBildFrage.PerformLayout();
             rbFlaggeAntwort.ResumeLayout(false);
             rbFlaggeAntwort.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbFrageFlagge).EndInit();
+            panelSpielTextOnly.ResumeLayout(false);
+            panelSpielTextOnly.PerformLayout();
             groupBoxTextOnly.ResumeLayout(false);
             groupBoxTextOnly.PerformLayout();
             ResumeLayout(false);
@@ -827,11 +829,11 @@
         private Panel panelSpielTextOnly;
         private Label lbFrageText;
         private Label lbFrage;
-        private RadioButton rbAntwort4;
-        private RadioButton rbAntwort3;
-        private RadioButton rbAntwort2;
-        private RadioButton rbAntwort1;
-        private Button btnNext;
+        private RadioButton rbAntwortText4;
+        private RadioButton rbAntwortText3;
+        private RadioButton rbAntwortText2;
+        private RadioButton rbAntwortText1;
+        private Button btnTextOnlyNext;
         private Panel panelSpielBildFrage;
         private Label lbFrageBildText;
         private Label lbFrageBild;
@@ -841,7 +843,7 @@
         private RadioButton rbAntwortFlagge3;
         private RadioButton rbAntwortFlagge2;
         private RadioButton rbAntwortFlagge1;
-        private PictureBox pictureBox1;
+        private PictureBox pbFrageFlagge;
         private Button btnFlaggeAntwortNext;
         private Panel panelSpielBildAntwort;
         private Button btnAntwortBildNext;

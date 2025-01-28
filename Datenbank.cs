@@ -210,8 +210,7 @@ namespace SaschaKleinen
             {
                 Open();
                 MySqlCommand com = con.CreateCommand();
-                com.CommandText = "SELECT * FROM kontinente WHERE name IN (@kontinente) ORDER BY kontinentID ASC;";
-                com.Parameters.AddWithValue("@kontinente", kontinente);
+                com.CommandText = string.Format("SELECT * FROM kontinente WHERE name IN ({0}) ORDER BY kontinentID ASC;", kontinente);
                 MySqlDataReader reader = com.ExecuteReader();
                 while (reader.Read())
                 {

@@ -163,6 +163,7 @@ namespace SaschaKleinen
             frageRadioHandling();
         }
 
+        // Methode die ausgeführt wird, wenn der Button 'Spiel beginnen' geklickt wird
         private void btnSpielbeginnen_Click(object sender, EventArgs e)
         {
             tabControlSpiel.SelectedTab = tabPageSpiel; // Wechselt zum Spiel-Tab
@@ -172,112 +173,125 @@ namespace SaschaKleinen
                 case "Flaggen":
                     if (rbAntworttyp1.Checked)
                     {
-                        panelSpielBildFrage.BringToFront();
-                        panelSpielBildAntwort.Visible = false;
-                        panelSpielTextOnly.Visible = false;
+                        panelSpielBildFrage.BringToFront(); // Bringt das Bild-Frage-Panel in den Vordergrund
+                        panelSpielBildAntwort.Visible = false; // Blendet das Bild-Antwort-Panel aus
+                        panelSpielTextOnly.Visible = false; // Blendet das Text-Panel aus
 
-                        string land = "land";
-                        bildFrageSpiel(land);
+                        if (!spielt) // Überprüfung, ob das Spiel schon läuft
+                        {
+                            frageNr = 1;
+                            string land = "land"; // Parameter für das Flaggen-Frage-Spiel
+                            bildFrageSpiel(land); // Startet das Bild-Frage-Spiel für Flaggen und Länder
+                        }
+                        else
+                        {
+                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
+                            return; // Beendet die Methode, um keine weitere Spielinstanz zu starten
+                        }
 
                     }
                     else if (rbAntworttyp2.Checked)
                     {
+                        panelSpielBildFrage.BringToFront(); // Bringt das Bild-Frage-Panel in den Vordergrund
+                        panelSpielBildAntwort.Visible = false; // Blendet das Bild-Antwort-Panel aus
+                        panelSpielTextOnly.Visible = false; // Blendet das Text-Panel aus
 
-                        panelSpielBildFrage.BringToFront();
-                        panelSpielBildAntwort.Visible = false;
-                        panelSpielTextOnly.Visible = false;
-
-                        string hauptstadt = "hauptstadt";
-                        bildFrageSpiel(hauptstadt);
+                        if (!spielt)
+                        {
+                            frageNr = 1; // Setzt die aktuelle Frage auf 1
+                            string hauptstadt = "hauptstadt"; // Parameter für die Hauptstadt
+                            bildFrageSpiel(hauptstadt); // Startet das Bild-Frage-Spiel für Flaggen und Hauptstädte
+                        }
+                        else
+                        {
+                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
+                            return; // Beendet die Methode, um keine weitere Spielinstanz zu starten
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Bitte wählen Sie einen Antworttyp aus");
+                        MessageBox.Show("Bitte wählen Sie einen Antworttyp aus"); // Hinweis, wenn kein Antworttyp gewählt wurde
                     }
                     break;
+
                 case "Hauptstädte":
                     if (rbAntworttyp1.Checked)
                     {
-                        panelSpielBildFrage.SendToBack();
-                        panelSpielBildAntwort.SendToBack();
-                        panelSpielTextOnly.BringToFront();
+                        panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
+                        panelSpielBildAntwort.SendToBack(); // Schickt das Bild-Antwort-Panel in den Hintergrund
+                        panelSpielTextOnly.BringToFront(); // Zeigt das reine Text-Frage-Panel an
 
-                        if (!spielt)
+                        if (!spielt) 
                         {
-                            frageNr = 1;
-                            // Eigentliches Spiel
-                            // Hauptstädte welches Land
-                            string hauptstadt = "hauptstadt";
-                            textFrageSpiel(hauptstadt);
+                            frageNr = 1; 
+                            string hauptstadt = "hauptstadt"; // Parameter für Hauptstadtnamen
+                            textFrageSpiel(hauptstadt); // Startet das Text-Frage-Spiel für Hauptstädte
                         }
                         else
                         {
-                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels");
-                            return;
+                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
+                            return; // Beendet die Methode, um keine weitere Spielinstanz zu starten
                         }
                     }
                     else if (rbAntworttyp2.Checked)
                     {
-                        panelSpielBildFrage.SendToBack();
-                        panelSpielBildAntwort.BringToFront();
-                        panelSpielTextOnly.SendToBack();
+                        panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
+                        panelSpielBildAntwort.BringToFront(); // Bringt das Bild-Antwort-Panel in den Vordergrund
+                        panelSpielTextOnly.SendToBack(); // Schickt das Text-Panel in den Hintergrund
 
                         if (!spielt)
                         {
-                            frageNr = 1;
-
-                            string hauptstadt = "hauptstadt";
-                            bildAntwortSpiel(hauptstadt);
+                            frageNr = 1; // Setzt die aktuelle Frage auf 1
+                            string hauptstadt = "hauptstadt"; // Parameter für Hauptstadtnamen
+                            bildAntwortSpiel(hauptstadt); // Startet das Bild-Antwort-Spiel mit Städten
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Bitte wählen Sie einen Antworttyp aus");
+                        MessageBox.Show("Bitte wählen Sie einen Antworttyp aus"); // Hinweis, wenn kein Antworttyp gewählt wurde
                     }
                     break;
+
                 case "Länder":
                     if (rbAntworttyp1.Checked)
                     {
-                        panelSpielBildFrage.SendToBack();
-                        panelSpielBildAntwort.SendToBack();
-                        panelSpielTextOnly.BringToFront();
+                        panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
+                        panelSpielBildAntwort.SendToBack(); // Schickt das Bild-Antwort-Panel in den Hintergrund
+                        panelSpielTextOnly.BringToFront(); // Zeigt das reine Text-Frage-Panel an
 
                         if (!spielt)
                         {
-                            frageNr = 1;
-                            // Eigentliches Spiel
-                            // Länder welche Hauptstadt
-                            string land = "land";
-                            textFrageSpiel(land);
+                            frageNr = 1; // Setzt die aktuelle Frage auf 1
+                            string land = "land"; // Parameter für Landesnamen
+                            textFrageSpiel(land); // Startet das Text-Frage-Spiel für Länder
                         }
                         else
                         {
-                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels");
-                            return;
+                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
+                            return; // Methode beenden, wenn Spiel bereits läuft
                         }
                     }
                     else if (rbAntworttyp2.Checked)
                     {
-                        panelSpielBildFrage.SendToBack();
-                        panelSpielBildAntwort.BringToFront();
-                        panelSpielTextOnly.SendToBack();
+                        panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
+                        panelSpielBildAntwort.BringToFront(); // Zeigt das Bild-Antwort-Panel an
+                        panelSpielTextOnly.SendToBack(); // Blendet das Text-Panel aus
 
                         if (!spielt)
                         {
-                            frageNr = 1;
-
-                            string land = "land";
-                            bildAntwortSpiel(land);
+                            frageNr = 1; // Setzt die aktuelle Frage auf 1
+                            string land = "land"; // Parameter für Landesnamen
+                            bildAntwortSpiel(land); // Startet das Bild-Antwort-Spiel für Länder
                         }
                         else
                         {
-                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels");
-                            return;
+                            MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
+                            return; // Methode beenden
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Bitte wählen Sie einen Antworttyp aus");
+                        MessageBox.Show("Bitte wählen Sie einen Antworttyp aus"); // Hinweis, wenn kein Antworttyp gewählt wurde
                     }
                     break;
             }

@@ -83,7 +83,9 @@ namespace SaschaKleinen
             spieler.SpielerID = spielerid;
 
             Spiel s = new Spiel(spieler); // Erstellt ein neues Spiel-Formular mit dem Spielernamen
+            //s.FormClosed += new FormClosedEventHandler(s_FormClosed); Event, wenn das Spiel-Formular geschlossen wird
             s.Show(); // Zeigt das Spiel-Formular an
+            this.Close();
         }
         #endregion
 

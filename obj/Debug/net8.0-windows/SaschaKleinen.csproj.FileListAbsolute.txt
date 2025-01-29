@@ -72,3 +72,6 @@ C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\Sa
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\SaschaKleinen.genruntimeconfig.cache
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\ref\SaschaKleinen.dll
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\SaschaKleinen.Highscores.resources
+C:\Users\sasch\source\repos\SaschaKleinen\SaschaKleinen\obj\Debug\net8.0-windows\SaschaKleinen.Highscores.resources
+C:\Users\sasch\source\repos\SaschaKleinen\SaschaKleinen\bin\Debug\net8.0-windows\INIFileParser.dll
+C:\Users\sasch\source\repos\SaschaKleinen\SaschaKleinen\bin\Debug\net8.0-windows\difficulty.ini

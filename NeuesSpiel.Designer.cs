@@ -77,7 +77,7 @@
             // btnVorhandenerSpieler
             // 
             btnVorhandenerSpieler.Font = new Font("Segoe UI", 18F);
-            btnVorhandenerSpieler.Location = new Point(386, 358);
+            btnVorhandenerSpieler.Location = new Point(366, 358);
             btnVorhandenerSpieler.Name = "btnVorhandenerSpieler";
             btnVorhandenerSpieler.Size = new Size(250, 75);
             btnVorhandenerSpieler.TabIndex = 3;
@@ -88,7 +88,7 @@
             // btnNeuerSpieler
             // 
             btnNeuerSpieler.Font = new Font("Segoe UI", 18F);
-            btnNeuerSpieler.Location = new Point(76, 358);
+            btnNeuerSpieler.Location = new Point(56, 358);
             btnNeuerSpieler.Name = "btnNeuerSpieler";
             btnNeuerSpieler.Size = new Size(250, 75);
             btnNeuerSpieler.TabIndex = 2;
@@ -100,7 +100,7 @@
             // 
             lbNeuerSpieler.AutoSize = true;
             lbNeuerSpieler.Font = new Font("Segoe UI", 18F);
-            lbNeuerSpieler.Location = new Point(170, 230);
+            lbNeuerSpieler.Location = new Point(170, 245);
             lbNeuerSpieler.Name = "lbNeuerSpieler";
             lbNeuerSpieler.Size = new Size(332, 32);
             lbNeuerSpieler.TabIndex = 1;

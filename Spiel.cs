@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using IniParser;
+using IniParser.Model;
+using System.Text;
 
 namespace SaschaKleinen
 {
@@ -13,7 +15,7 @@ namespace SaschaKleinen
         private bool spielt = false;
 
         private int frageNr; // Speichert die aktuelle Antwortnummer
-        private int maxFragen = 10; // Speichert die maximale Anzahl an Fragen
+        private int maxFragen = 3; // Speichert die maximale Anzahl an Fragen
         private int streakmult; // Variable für Streak-Multiplikator
         private int maxstreak; // Variable für maximalen Streak
         private int difmult; // Variable für Schwierigkeitsgrad-Multiplikator
@@ -25,10 +27,10 @@ namespace SaschaKleinen
         private Datenbank db = new Datenbank();
 
         // Listen zur Speicherung verschiedener Datenbankeinträge
-        private List<Spieler> liSpieler = new List<Spieler>();
+
         private List<Laender> liLaender = new List<Laender>();
         private List<Kontinente> liKontinente = new List<Kontinente>();
-        private List<Scores> liScores = new List<Scores>();
+
 
         // Konstruktor, erwartet den Spielernamen als Parameter
         public Spiel(Spieler spieler)
@@ -36,7 +38,9 @@ namespace SaschaKleinen
             InitializeComponent();
             onLoadLists(); // Lädt die benötigten Listen mit Daten
             hideTabs(); // Blendet Tabs im TabControl aus
+            onLoadini(); // Lädt die Einstellungen aus der INI-Datei
             this.spieler = spieler; // Weist den übergebenen Spielernamen der lokalen Variable zu
+            panelSchwierigkeitsini.Enabled = false; // Deaktiviert das Schwierigkeitsgrad-Panel
         }
 
         #region onLoad
@@ -44,9 +48,7 @@ namespace SaschaKleinen
         // Lädt die Listen aus der Datenbank
         public void onLoadLists()
         {
-            liScores = db.getScores();
             liLaender = db.getLaender();
-            liSpieler = db.getSpieler();
         }
 
         // Passt das TabControl-Layout an
@@ -57,6 +59,17 @@ namespace SaschaKleinen
             tabControlSpiel.SizeMode = TabSizeMode.Fixed;
         }
 
+        private void onLoadini()
+        {
+            FileIniDataParser parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("difficulty.ini");
+
+            foreach (SectionData section in data.Sections)
+            {
+                comboBoxSchwierigkeitsIni.Items.Add(section.SectionName);
+            }
+        }
+
         #endregion
 
         #region Checkboxes
@@ -64,27 +77,36 @@ namespace SaschaKleinen
         // Eventhandler, wenn die Checkbox 'Alle' an-/abgewählt wird
         private void checkBoxAlle_CheckedChanged(object sender, EventArgs e)
         {
+            bool check;
             if (checkBoxAlle.Checked)
             {
-                // Aktiviert alle Checkboxen für Kontinente
-                checkBoxAfrica.Checked = true;
-                checkBoxAsien.Checked = true;
-                checkBoxEuropa.Checked = true;
-                checkBoxNordamerika.Checked = true;
-                checkBoxSuedamerika.Checked = true;
-                checkBoxAusOz.Checked = true;
-                panelKontinentSingleSelect.Enabled = false; // Deaktiviert Einzelauswahl
+                check = true;
+                checkBoxHandling(check);
             }
             else
             {
-                // Deaktiviert alle Checkboxen für Kontinente
-                checkBoxAfrica.Checked = false;
-                checkBoxAsien.Checked = false;
-                checkBoxEuropa.Checked = false;
-                checkBoxNordamerika.Checked = false;
-                checkBoxSuedamerika.Checked = false;
-                checkBoxAusOz.Checked = false;
-                panelKontinentSingleSelect.Enabled = true; // Aktiviert Einzelauswahl
+                check = false;
+                checkBoxHandling(check);
+            }
+        }
+
+        private void checkBoxHandling(bool check)
+        {
+            if (check)
+            {
+                panelKontinentSingleSelect.Enabled = false;
+                foreach (CheckBox cb in panelKontinentSingleSelect.Controls)
+                {
+                    cb.Checked = check;
+                }
+            }
+            else
+            {
+                panelKontinentSingleSelect.Enabled = true;
+                foreach (CheckBox cb in panelKontinentSingleSelect.Controls)
+                {
+                    cb.Checked = check;
+                }
             }
         }
 
@@ -218,9 +240,9 @@ namespace SaschaKleinen
                         panelSpielBildAntwort.SendToBack(); // Schickt das Bild-Antwort-Panel in den Hintergrund
                         panelSpielTextOnly.BringToFront(); // Zeigt das reine Text-Frage-Panel an
 
-                        if (!spielt) 
+                        if (!spielt)
                         {
-                            frageNr = 1; 
+                            frageNr = 1;
                             string hauptstadt = "hauptstadt"; // Parameter für Hauptstadtnamen
                             textFrageSpiel(hauptstadt); // Startet das Text-Frage-Spiel für Hauptstädte
                         }
@@ -295,6 +317,8 @@ namespace SaschaKleinen
 
 
         }
+
+
 
 
         #endregion
@@ -564,7 +588,6 @@ namespace SaschaKleinen
                     antworten = antworten.OrderBy(a => ran.Next()).ToList();
 
                     lbAntwortBildFrageText.Text = "Welche Flagge gehört zu " + gesuchtesLand.LandName.ToString() + "?";
-
                     radioIndex = 0;
 
                     foreach (Control ctrl in groupBildAntworten.Controls)
@@ -652,7 +675,7 @@ namespace SaschaKleinen
                                         break;
                                 }
                             }
-                            catch(FileNotFoundException ex)
+                            catch (FileNotFoundException ex)
                             {
                                 MessageBox.Show("Fehler beim Laden der Flagge: " + ex.Message);
                             }
@@ -674,7 +697,7 @@ namespace SaschaKleinen
                 {
                     bool istRichtig = (bool)rb.Tag;
 
-                    richtigFalsch(istRichtig);
+                    streakmultCalc(istRichtig);
                 }
             }
 
@@ -706,7 +729,7 @@ namespace SaschaKleinen
                 {
                     bool istRichtig = (bool)rb.Tag;
 
-                    richtigFalsch(istRichtig);
+                    streakmultCalc(istRichtig);
                 }
             }
 
@@ -737,7 +760,7 @@ namespace SaschaKleinen
                 {
                     bool istRichtig = (bool)rb.Tag;
 
-                    richtigFalsch(istRichtig);
+                    streakmultCalc(istRichtig);
                 }
             }
 
@@ -770,12 +793,23 @@ namespace SaschaKleinen
 
             db.newScore(score);
 
-            MessageBox.Show("Das Spiel ist zu ende" + Environment.NewLine +
-                            "Dein Score ist: " + endScore.ToString() + " Punkte");
+            DialogResult result = MessageBox.Show("Das Spiel ist zu ende" + Environment.NewLine +
+                                                  "Dein Score ist: " + endScore.ToString() + " Punkte" + Environment.NewLine +
+                                                  "Möchtest du ein neues Spiel starten?", "GLÜCKWUNSCH", MessageBoxButtons.YesNo, MessageBoxIcon.None);
+
+            if (result == DialogResult.Yes)
+            {
+                gameReset();
+            }
+            else
+            {
+                this.Close();
+            }
+
 
         }
 
-        private void richtigFalsch(bool istRichtig)
+        private void streakmultCalc(bool istRichtig)
         {
             if (istRichtig)
             {
@@ -831,7 +865,47 @@ namespace SaschaKleinen
             }
         }
 
-        
+        private void gameReset()
+        {
+            checkedFrage = "";
+            curGame = "";
+            frageNr = 1;
+            streakmult = 0;
+            maxstreak = 0;
+            difmult = 0;
+            score = 0;
+            endScore = 0;
+            spielt = false;
+
+            checkBoxAlle.Checked = false;
+
+            foreach (Control ctrl in panelKontinentSingleSelect.Controls)
+            {
+                if (ctrl is CheckBox cb)
+                {
+                    cb.Checked = false;
+                }
+            }
+
+            foreach (Control ctrl in panelFragentyp.Controls)
+            {
+                if (ctrl is RadioButton rb)
+                {
+                    rb.Checked = false;
+                }
+            }
+
+            foreach (Control ctrl in panelAtnworttyp.Controls)
+            {
+                if (ctrl is RadioButton rb)
+                {
+                    rb.Checked = false;
+                }
+            }
+
+            tabControlSpiel.SelectedTab = tabPageKontinente;
+        }
+
         #endregion
 
         #region Bild click
@@ -855,7 +929,89 @@ namespace SaschaKleinen
             rbBildAntwort4.Checked = true;
         }
         #endregion
-        
+
+        private void checkBoxSchwierigkeitIni_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSchwierigkeitIni.Checked)
+            {
+                panelKontinentSelectAll.Enabled = false;
+                panelKontinentSingleSelect.Enabled = false;
+                panelSchwierigkeitsini.Enabled = true;
+
+                clearKontinentCheckboxes();
+            }
+            else
+            {
+                panelKontinentSelectAll.Enabled = true;
+                panelKontinentSingleSelect.Enabled = true;
+                panelSchwierigkeitsini.Enabled = false;
+
+                clearKontinentCheckboxes();
+            }
+        }
+
+        private void comboBoxSchwierigkeitsIni_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Ini handling
+            FileIniDataParser parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("difficulty.ini");
+
+            string difficulty = comboBoxSchwierigkeitsIni.SelectedItem.ToString();
+
+            switch (difficulty)
+            {
+                case "Leicht":
+                    clearKontinentCheckboxes();
+                    setDifficultyIni(difficulty);
+                    break;
+                case "Mittel":
+                    clearKontinentCheckboxes();
+                    setDifficultyIni(difficulty);
+                    break;
+                case "Schwer":
+                    clearKontinentCheckboxes();
+                    setDifficultyIni(difficulty);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void setDifficultyIni(string difficulty)
+        {
+            FileIniDataParser parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("difficulty.ini");
+
+            foreach (KeyData key in data[difficulty])
+            {
+                MessageBox.Show("Key: " + key.KeyName + " Value: " + key.Value);
+
+                foreach (Control ctrl in panelKontinentSingleSelect.Controls)
+                {
+                    if (ctrl is CheckBox cb)
+                    {
+                        if (cb.Text == key.KeyName && key.Value == "1")
+                        {
+                            //MessageBox.Show("Key: " + key.KeyName + " Value: " + key.Value);
+                            cb.Checked = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void clearKontinentCheckboxes()
+        {
+            foreach (Control ctrl in panelKontinentSingleSelect.Controls)
+            {
+                if (ctrl is CheckBox cb)
+                {
+                    cb.Checked = false;
+                }
+            }
+
+            checkBoxAlle.Checked = false;
+        }
     }
 
 }

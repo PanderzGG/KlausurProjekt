@@ -30,11 +30,14 @@
         {
             tabControlSpiel = new TabControl();
             tabPageKontinente = new TabPage();
+            checkBoxSchwierigkeitIni = new CheckBox();
+            panelSchwierigkeitsini = new Panel();
+            comboBoxSchwierigkeitsIni = new ComboBox();
             panelKontinentSelectAll = new Panel();
             checkBoxAlle = new CheckBox();
             panelKontinentSingleSelect = new Panel();
             checkBoxAfrica = new CheckBox();
-            checkBoxAusOz = new CheckBox();
+            checkBoxOzeanien = new CheckBox();
             checkBoxNordamerika = new CheckBox();
             checkBoxSuedamerika = new CheckBox();
             checkBoxAsien = new CheckBox();
@@ -54,7 +57,6 @@
             btnSpielbeginnen = new Button();
             btnFATZurueck = new Button();
             tabPageSpiel = new TabPage();
-            panelSpielBildFrage = new Panel();
             panelSpielBildAntwort = new Panel();
             btnAntwortBildNext = new Button();
             groupBildAntworten = new GroupBox();
@@ -68,8 +70,9 @@
             rbBildAntwort1 = new RadioButton();
             lbAntwortBildFrageText = new Label();
             lbAntwortBildFrage = new Label();
-            rbFlaggeAntwort = new GroupBox();
+            panelSpielBildFrage = new Panel();
             btnFlaggeAntwortNext = new Button();
+            rbFlaggeAntwort = new GroupBox();
             rbAntwortFlagge4 = new RadioButton();
             rbAntwortFlagge3 = new RadioButton();
             rbAntwortFlagge2 = new RadioButton();
@@ -80,27 +83,28 @@
             panelSpielTextOnly = new Panel();
             groupBoxTextOnly = new GroupBox();
             rbAntwortText4 = new RadioButton();
-            btnTextOnlyNext = new Button();
             rbAntwortText3 = new RadioButton();
             rbAntwortText2 = new RadioButton();
             rbAntwortText1 = new RadioButton();
+            btnTextOnlyNext = new Button();
             lbFrageText = new Label();
             lbFrage = new Label();
             tabControlSpiel.SuspendLayout();
             tabPageKontinente.SuspendLayout();
+            panelSchwierigkeitsini.SuspendLayout();
             panelKontinentSelectAll.SuspendLayout();
             panelKontinentSingleSelect.SuspendLayout();
             tabPageFrageAntworttyp.SuspendLayout();
             panelAtnworttyp.SuspendLayout();
             panelFragentyp.SuspendLayout();
             tabPageSpiel.SuspendLayout();
-            panelSpielBildFrage.SuspendLayout();
             panelSpielBildAntwort.SuspendLayout();
             groupBildAntworten.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAntwort4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort1).BeginInit();
+            panelSpielBildFrage.SuspendLayout();
             rbFlaggeAntwort.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbFrageFlagge).BeginInit();
             panelSpielTextOnly.SuspendLayout();
@@ -120,6 +124,8 @@
             // 
             // tabPageKontinente
             // 
+            tabPageKontinente.Controls.Add(checkBoxSchwierigkeitIni);
+            tabPageKontinente.Controls.Add(panelSchwierigkeitsini);
             tabPageKontinente.Controls.Add(panelKontinentSelectAll);
             tabPageKontinente.Controls.Add(panelKontinentSingleSelect);
             tabPageKontinente.Controls.Add(btnKontinentWeiter);
@@ -131,6 +137,34 @@
             tabPageKontinente.TabIndex = 0;
             tabPageKontinente.Text = "Kontinente";
             tabPageKontinente.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSchwierigkeitIni
+            // 
+            checkBoxSchwierigkeitIni.AutoSize = true;
+            checkBoxSchwierigkeitIni.Location = new Point(671, 103);
+            checkBoxSchwierigkeitIni.Name = "checkBoxSchwierigkeitIni";
+            checkBoxSchwierigkeitIni.Size = new Size(171, 19);
+            checkBoxSchwierigkeitIni.TabIndex = 13;
+            checkBoxSchwierigkeitIni.Text = "Schwierigkeit aus .ini Laden";
+            checkBoxSchwierigkeitIni.UseVisualStyleBackColor = true;
+            checkBoxSchwierigkeitIni.CheckedChanged += checkBoxSchwierigkeitIni_CheckedChanged;
+            // 
+            // panelSchwierigkeitsini
+            // 
+            panelSchwierigkeitsini.Controls.Add(comboBoxSchwierigkeitsIni);
+            panelSchwierigkeitsini.Location = new Point(671, 128);
+            panelSchwierigkeitsini.Name = "panelSchwierigkeitsini";
+            panelSchwierigkeitsini.Size = new Size(253, 90);
+            panelSchwierigkeitsini.TabIndex = 12;
+            // 
+            // comboBoxSchwierigkeitsIni
+            // 
+            comboBoxSchwierigkeitsIni.FormattingEnabled = true;
+            comboBoxSchwierigkeitsIni.Location = new Point(34, 33);
+            comboBoxSchwierigkeitsIni.Name = "comboBoxSchwierigkeitsIni";
+            comboBoxSchwierigkeitsIni.Size = new Size(185, 23);
+            comboBoxSchwierigkeitsIni.TabIndex = 0;
+            comboBoxSchwierigkeitsIni.SelectedIndexChanged += comboBoxSchwierigkeitsIni_SelectedIndexChanged;
             // 
             // panelKontinentSelectAll
             // 
@@ -155,7 +189,7 @@
             // panelKontinentSingleSelect
             // 
             panelKontinentSingleSelect.Controls.Add(checkBoxAfrica);
-            panelKontinentSingleSelect.Controls.Add(checkBoxAusOz);
+            panelKontinentSingleSelect.Controls.Add(checkBoxOzeanien);
             panelKontinentSingleSelect.Controls.Add(checkBoxNordamerika);
             panelKontinentSingleSelect.Controls.Add(checkBoxSuedamerika);
             panelKontinentSingleSelect.Controls.Add(checkBoxAsien);
@@ -176,16 +210,16 @@
             checkBoxAfrica.Text = "Afrika";
             checkBoxAfrica.UseVisualStyleBackColor = true;
             // 
-            // checkBoxAusOz
+            // checkBoxOzeanien
             // 
-            checkBoxAusOz.AutoSize = true;
-            checkBoxAusOz.Font = new Font("Segoe UI", 18F);
-            checkBoxAusOz.Location = new Point(481, 97);
-            checkBoxAusOz.Name = "checkBoxAusOz";
-            checkBoxAusOz.Size = new Size(249, 36);
-            checkBoxAusOz.TabIndex = 7;
-            checkBoxAusOz.Text = "Australien/Ozeanien";
-            checkBoxAusOz.UseVisualStyleBackColor = true;
+            checkBoxOzeanien.AutoSize = true;
+            checkBoxOzeanien.Font = new Font("Segoe UI", 18F);
+            checkBoxOzeanien.Location = new Point(481, 97);
+            checkBoxOzeanien.Name = "checkBoxOzeanien";
+            checkBoxOzeanien.Size = new Size(134, 36);
+            checkBoxOzeanien.TabIndex = 7;
+            checkBoxOzeanien.Text = "Ozeanien";
+            checkBoxOzeanien.UseVisualStyleBackColor = true;
             // 
             // checkBoxNordamerika
             // 
@@ -204,9 +238,9 @@
             checkBoxSuedamerika.Font = new Font("Segoe UI", 18F);
             checkBoxSuedamerika.Location = new Point(266, 97);
             checkBoxSuedamerika.Name = "checkBoxSuedamerika";
-            checkBoxSuedamerika.Size = new Size(158, 36);
+            checkBoxSuedamerika.Size = new Size(171, 36);
             checkBoxSuedamerika.TabIndex = 4;
-            checkBoxSuedamerika.Text = "Südamerika";
+            checkBoxSuedamerika.Text = "Suedamerika";
             checkBoxSuedamerika.UseVisualStyleBackColor = true;
             // 
             // checkBoxAsien
@@ -404,18 +438,6 @@
             tabPageSpiel.Text = "Spiel";
             tabPageSpiel.UseVisualStyleBackColor = true;
             // 
-            // panelSpielBildFrage
-            // 
-            panelSpielBildFrage.Controls.Add(btnFlaggeAntwortNext);
-            panelSpielBildFrage.Controls.Add(rbFlaggeAntwort);
-            panelSpielBildFrage.Controls.Add(pbFrageFlagge);
-            panelSpielBildFrage.Controls.Add(lbFrageBildText);
-            panelSpielBildFrage.Controls.Add(lbFrageBild);
-            panelSpielBildFrage.Location = new Point(0, 0);
-            panelSpielBildFrage.Name = "panelSpielBildFrage";
-            panelSpielBildFrage.Size = new Size(980, 630);
-            panelSpielBildFrage.TabIndex = 7;
-            // 
             // panelSpielBildAntwort
             // 
             panelSpielBildAntwort.Controls.Add(btnAntwortBildNext);
@@ -550,10 +572,10 @@
             // lbAntwortBildFrageText
             // 
             lbAntwortBildFrageText.AutoSize = true;
-            lbAntwortBildFrageText.Font = new Font("Segoe UI", 27F);
-            lbAntwortBildFrageText.Location = new Point(128, 79);
+            lbAntwortBildFrageText.Font = new Font("Segoe UI", 22F);
+            lbAntwortBildFrageText.Location = new Point(15, 78);
             lbAntwortBildFrageText.Name = "lbAntwortBildFrageText";
-            lbAntwortBildFrageText.Size = new Size(625, 48);
+            lbAntwortBildFrageText.Size = new Size(524, 41);
             lbAntwortBildFrageText.TabIndex = 1;
             lbAntwortBildFrageText.Text = "Welche Flagge gehört zu diesem Land";
             // 
@@ -567,6 +589,28 @@
             lbAntwortBildFrage.TabIndex = 0;
             lbAntwortBildFrage.Text = "Frage:";
             // 
+            // panelSpielBildFrage
+            // 
+            panelSpielBildFrage.Controls.Add(btnFlaggeAntwortNext);
+            panelSpielBildFrage.Controls.Add(rbFlaggeAntwort);
+            panelSpielBildFrage.Controls.Add(pbFrageFlagge);
+            panelSpielBildFrage.Controls.Add(lbFrageBildText);
+            panelSpielBildFrage.Controls.Add(lbFrageBild);
+            panelSpielBildFrage.Location = new Point(0, 0);
+            panelSpielBildFrage.Name = "panelSpielBildFrage";
+            panelSpielBildFrage.Size = new Size(980, 630);
+            panelSpielBildFrage.TabIndex = 7;
+            // 
+            // btnFlaggeAntwortNext
+            // 
+            btnFlaggeAntwortNext.Location = new Point(814, 577);
+            btnFlaggeAntwortNext.Name = "btnFlaggeAntwortNext";
+            btnFlaggeAntwortNext.Size = new Size(150, 50);
+            btnFlaggeAntwortNext.TabIndex = 4;
+            btnFlaggeAntwortNext.Text = "Bestätigen";
+            btnFlaggeAntwortNext.UseVisualStyleBackColor = true;
+            btnFlaggeAntwortNext.Click += btnFlaggeAntwortNext_Click;
+            // 
             // rbFlaggeAntwort
             // 
             rbFlaggeAntwort.Controls.Add(rbAntwortFlagge4);
@@ -579,16 +623,6 @@
             rbFlaggeAntwort.TabIndex = 3;
             rbFlaggeAntwort.TabStop = false;
             rbFlaggeAntwort.Text = "Antworten";
-            // 
-            // btnFlaggeAntwortNext
-            // 
-            btnFlaggeAntwortNext.Location = new Point(814, 577);
-            btnFlaggeAntwortNext.Name = "btnFlaggeAntwortNext";
-            btnFlaggeAntwortNext.Size = new Size(150, 50);
-            btnFlaggeAntwortNext.TabIndex = 4;
-            btnFlaggeAntwortNext.Text = "Bestätigen";
-            btnFlaggeAntwortNext.UseVisualStyleBackColor = true;
-            btnFlaggeAntwortNext.Click += btnFlaggeAntwortNext_Click;
             // 
             // rbAntwortFlagge4
             // 
@@ -703,17 +737,6 @@
             rbAntwortText4.Text = "Antwort4";
             rbAntwortText4.UseVisualStyleBackColor = true;
             // 
-            // btnTextOnlyNext
-            // 
-            btnTextOnlyNext.Font = new Font("Segoe UI", 18F);
-            btnTextOnlyNext.Location = new Point(719, 421);
-            btnTextOnlyNext.Name = "btnTextOnlyNext";
-            btnTextOnlyNext.Size = new Size(150, 50);
-            btnTextOnlyNext.TabIndex = 6;
-            btnTextOnlyNext.Text = "Bestätigen";
-            btnTextOnlyNext.UseVisualStyleBackColor = true;
-            btnTextOnlyNext.Click += btnTextOnlyNext_Click;
-            // 
             // rbAntwortText3
             // 
             rbAntwortText3.AutoSize = true;
@@ -750,6 +773,17 @@
             rbAntwortText1.Text = "Antwort1";
             rbAntwortText1.UseVisualStyleBackColor = true;
             // 
+            // btnTextOnlyNext
+            // 
+            btnTextOnlyNext.Font = new Font("Segoe UI", 18F);
+            btnTextOnlyNext.Location = new Point(719, 421);
+            btnTextOnlyNext.Name = "btnTextOnlyNext";
+            btnTextOnlyNext.Size = new Size(150, 50);
+            btnTextOnlyNext.TabIndex = 6;
+            btnTextOnlyNext.Text = "Bestätigen";
+            btnTextOnlyNext.UseVisualStyleBackColor = true;
+            btnTextOnlyNext.Click += btnTextOnlyNext_Click;
+            // 
             // lbFrageText
             // 
             lbFrageText.AutoSize = true;
@@ -781,6 +815,7 @@
             tabControlSpiel.ResumeLayout(false);
             tabPageKontinente.ResumeLayout(false);
             tabPageKontinente.PerformLayout();
+            panelSchwierigkeitsini.ResumeLayout(false);
             panelKontinentSelectAll.ResumeLayout(false);
             panelKontinentSelectAll.PerformLayout();
             panelKontinentSingleSelect.ResumeLayout(false);
@@ -791,8 +826,6 @@
             panelFragentyp.ResumeLayout(false);
             panelFragentyp.PerformLayout();
             tabPageSpiel.ResumeLayout(false);
-            panelSpielBildFrage.ResumeLayout(false);
-            panelSpielBildFrage.PerformLayout();
             panelSpielBildAntwort.ResumeLayout(false);
             panelSpielBildAntwort.PerformLayout();
             groupBildAntworten.ResumeLayout(false);
@@ -801,6 +834,8 @@
             ((System.ComponentModel.ISupportInitialize)pbAntwort3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbAntwort1).EndInit();
+            panelSpielBildFrage.ResumeLayout(false);
+            panelSpielBildFrage.PerformLayout();
             rbFlaggeAntwort.ResumeLayout(false);
             rbFlaggeAntwort.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbFrageFlagge).EndInit();
@@ -817,7 +852,7 @@
         private TabPage tabPageKontinente;
         private TabPage tabPageFrageAntworttyp;
         private CheckBox checkBoxAfrica;
-        private CheckBox checkBoxAusOz;
+        private CheckBox checkBoxOzeanien;
         private CheckBox checkBoxNordamerika;
         private CheckBox checkBoxSuedamerika;
         private CheckBox checkBoxAsien;
@@ -871,5 +906,8 @@
         private RadioButton rbBildAntwort1;
         private Label lbAntwortBildFrageText;
         private Label lbAntwortBildFrage;
+        private CheckBox checkBoxSchwierigkeitIni;
+        private Panel panelSchwierigkeitsini;
+        private ComboBox comboBoxSchwierigkeitsIni;
     }
 }

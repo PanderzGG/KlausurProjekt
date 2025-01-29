@@ -9,7 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ini-parser" Version="2.5.2" />
     <PackageReference Include="MySql.Data" Version="9.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="difficulty.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

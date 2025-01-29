@@ -64,6 +64,7 @@
             btnHighscores.TabIndex = 2;
             btnHighscores.Text = "Highscores";
             btnHighscores.UseVisualStyleBackColor = true;
+            btnHighscores.Click += btnHighscores_Click;
             // 
             // btnBeenden
             // 

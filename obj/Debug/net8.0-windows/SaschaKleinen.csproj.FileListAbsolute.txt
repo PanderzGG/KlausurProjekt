@@ -71,3 +71,4 @@ C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\re
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\SaschaKleinen.pdb
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\SaschaKleinen.genruntimeconfig.cache
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\ref\SaschaKleinen.dll
+C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\obj\Debug\net8.0-windows\SaschaKleinen.Highscores.resources

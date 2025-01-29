@@ -6,7 +6,7 @@ namespace SaschaKleinen
     public partial class Spiel : Form
     {
 
-        private string spieler; // Speichert den aktuellen Spielernamen
+        private Spieler spieler = new Spieler(); // Speichert den aktuellen Spielernamen
         private string checkedFrage; // Speichert den ausgewählten Fragetyp
         private string curGame;
 
@@ -31,12 +31,12 @@ namespace SaschaKleinen
         private List<Scores> liScores = new List<Scores>();
 
         // Konstruktor, erwartet den Spielernamen als Parameter
-        public Spiel(string spieler)
+        public Spiel(Spieler spieler)
         {
             InitializeComponent();
-            this.spieler = spieler; // Weist den übergebenen Spielernamen der lokalen Variable zu
             onLoadLists(); // Lädt die benötigten Listen mit Daten
             hideTabs(); // Blendet Tabs im TabControl aus
+            this.spieler = spieler; // Weist den übergebenen Spielernamen der lokalen Variable zu
         }
 
         #region onLoad
@@ -44,9 +44,9 @@ namespace SaschaKleinen
         // Lädt die Listen aus der Datenbank
         public void onLoadLists()
         {
-            liSpieler = db.getSpieler();
             liScores = db.getScores();
             liLaender = db.getLaender();
+            liSpieler = db.getSpieler();
         }
 
         // Passt das TabControl-Layout an
@@ -114,9 +114,6 @@ namespace SaschaKleinen
         private void endScoreBerechnen()
         {
             endScore = score * difmult * maxstreak * score;
-            MessageBox.Show("Das Spiel ist zu ende" + Environment.NewLine +
-                            "Ihr Score ist: " + endScore.ToString() + " Punkte");
-            return;
         }
 
         #endregion
@@ -416,7 +413,6 @@ namespace SaschaKleinen
             }
         }
 
-
         private void textFrageSpiel(string typ)
         {
             int indexGesucht = 0;
@@ -689,7 +685,7 @@ namespace SaschaKleinen
             }
             else if (frageNr == maxFragen)
             {
-                endScoreBerechnen();
+                scoreSpeichern();
             }
 
             foreach (Control ctrl in groupBoxTextOnly.Controls)
@@ -721,7 +717,7 @@ namespace SaschaKleinen
             }
             else if (frageNr == maxFragen)
             {
-                endScoreBerechnen();
+                scoreSpeichern();
             }
 
             foreach (Control ctrl in rbFlaggeAntwort.Controls)
@@ -752,7 +748,7 @@ namespace SaschaKleinen
             }
             else if (frageNr == maxFragen)
             {
-                endScoreBerechnen();
+                scoreSpeichern();
             }
 
             foreach (Control ctrl in groupBildAntworten.Controls)
@@ -762,6 +758,21 @@ namespace SaschaKleinen
                     rb.Checked = false;
                 }
             }
+        }
+
+        private void scoreSpeichern()
+        {
+            endScoreBerechnen();
+
+            Scores score = new Scores();
+            score.SpielerID = spieler.SpielerID;
+            score.Punkte = endScore;
+
+            db.newScore(score);
+
+            MessageBox.Show("Das Spiel ist zu ende" + Environment.NewLine +
+                            "Dein Score ist: " + endScore.ToString() + " Punkte");
+
         }
 
         private void richtigFalsch(bool istRichtig)
@@ -819,6 +830,8 @@ namespace SaschaKleinen
                     break;
             }
         }
+
+        
         #endregion
 
         #region Bild click

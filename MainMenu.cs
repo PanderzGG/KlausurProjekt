@@ -15,5 +15,12 @@ namespace SaschaKleinen
 
             nS.Show(); // Zeigt das NeuesSpiel-Formular an
         }
+
+        private void btnHighscores_Click(object sender, EventArgs e)
+        {
+            Highscores hS = new Highscores();
+
+            hS.Show();
+        }
     }
 }

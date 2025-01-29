@@ -86,7 +86,8 @@ namespace SaschaKleinen
                         new Scores(
                             reader.GetInt32(0),
                             reader.GetInt32(1),
-                            reader.GetInt32(2)
+                            reader.GetInt32(2),
+                            reader.GetDateTime(3)
                             )
                         );
                 }
@@ -177,15 +178,15 @@ namespace SaschaKleinen
 
         #region Insert queries
         
-        public void newSpieler(string benutzername)
+        public void newSpieler(Spieler spieler)
         {
 
             try
             {
                 Open();
                 MySqlCommand com = con.CreateCommand();
-                com.CommandText = "INSERT INTO SPIELER (benutzername) VALUES (@benutzername);";
-                com.Parameters.AddWithValue("@benutzername", benutzername);
+                com.CommandText = "INSERT INTO spieler (benutzername) VALUES (@benutzername);";
+                com.Parameters.AddWithValue("@benutzername", spieler.Benutzername);
                 com.ExecuteNonQuery();
 
             }
@@ -198,6 +199,25 @@ namespace SaschaKleinen
                 Close();
             }
 
+        }
+
+        public void newScore(Scores score)
+        {
+            try
+            {
+                Open();
+                MySqlCommand com = con.CreateCommand();
+                com.CommandText = string.Format("INSERT INTO scores (spielerID, punkte) VALUES ({0}, {1});", score.SpielerID, score.Punkte);
+                com.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Neuer Score konnte nicht hinzugefügt werden" + Environment.NewLine + ex.Message);
+            }
+            finally
+            {
+                Close();
+            }
         }
 
         #endregion

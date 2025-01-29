@@ -100,7 +100,7 @@
             // 
             lbNeuerSpieler.AutoSize = true;
             lbNeuerSpieler.Font = new Font("Segoe UI", 18F);
-            lbNeuerSpieler.Location = new Point(190, 230);
+            lbNeuerSpieler.Location = new Point(170, 230);
             lbNeuerSpieler.Name = "lbNeuerSpieler";
             lbNeuerSpieler.Size = new Size(332, 32);
             lbNeuerSpieler.TabIndex = 1;
@@ -110,7 +110,7 @@
             // 
             lbNeuesSpiel.AutoSize = true;
             lbNeuesSpiel.Font = new Font("Segoe UI", 46F);
-            lbNeuesSpiel.Location = new Point(179, 90);
+            lbNeuesSpiel.Location = new Point(159, 90);
             lbNeuesSpiel.Name = "lbNeuesSpiel";
             lbNeuesSpiel.Size = new Size(354, 84);
             lbNeuesSpiel.TabIndex = 0;

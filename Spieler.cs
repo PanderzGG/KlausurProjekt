@@ -19,5 +19,10 @@ namespace SaschaKleinen
             this.spielerID = spielerID;
             this.benutzername = benutzername;
         }
+
+        public Spieler()
+        {
+
+        }
     }
 }

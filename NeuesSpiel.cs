@@ -5,7 +5,7 @@ namespace SaschaKleinen
     {
         private Datenbank db = new Datenbank(); // Erstellt eine Instanz der Datenbankklasse
 
-        private List<Spieler> spieler; // Liste zum Speichern der Spieler
+        private List<Spieler> liSpieler; // Liste zum Speichern der Spieler
         private bool isNeuerSpieler; // Boolescher Wert zur Unterscheidung neuer oder vorhandener Spieler
 
         // Konstruktor der NeuesSpiel-Klasse
@@ -27,7 +27,7 @@ namespace SaschaKleinen
         // Lädt die Liste der vorhandenen Spieler aus der Datenbank
         private void onLoadSpieler()
         {
-            spieler = db.getSpieler();
+            liSpieler = db.getSpieler();
         }
 
         #region Buttons
@@ -48,12 +48,14 @@ namespace SaschaKleinen
         // Klick-Event für den Button "Spiel starten"
         private void btnSpielerNeuSpielen_Click(object sender, EventArgs e)
         {
-            string spieler = ""; // Variable für den Spielernamen
+            int spielerid;
+            Spieler spieler = new Spieler();
 
             if (isNeuerSpieler)
             {
-                spieler = tbBenutzername.Text; // Liest den eingegebenen Benutzernamen aus
-                if (spieler != "")
+                spieler.Benutzername = tbBenutzername.Text;
+                
+                if (spieler.Benutzername != "")
                 {
                     db.newSpieler(spieler); // Fügt den neuen Spieler in der Datenbank hinzu
                 }
@@ -67,7 +69,7 @@ namespace SaschaKleinen
             {
                 if (cbBenutzernamen.Text != "") // Prüft, ob ein Benutzername ausgewählt wurde
                 {
-                    spieler = cbBenutzernamen.Text; // Übernimmt den ausgewählten Namen
+                    spieler.Benutzername = cbBenutzernamen.Text; // Übernimmt den ausgewählten Namen
                 }
                 else
                 {
@@ -75,6 +77,10 @@ namespace SaschaKleinen
                     return; // Methode hier beenden
                 }
             }
+
+            liSpieler = db.getSpieler();
+            spielerid = liSpieler.Find(x => x.Benutzername == spieler.Benutzername).SpielerID;
+            spieler.SpielerID = spielerid;
 
             Spiel s = new Spiel(spieler); // Erstellt ein neues Spiel-Formular mit dem Spielernamen
             s.Show(); // Zeigt das Spiel-Formular an
@@ -88,7 +94,7 @@ namespace SaschaKleinen
             {
                 cbBenutzernamen.Items.Clear(); // Leert die Combobox
 
-                foreach (Spieler s in spieler)
+                foreach (Spieler s in liSpieler)
                 {
                     cbBenutzernamen.Items.Add(s.Benutzername); // Fügt jeden vorhandenen Spielernamen hinzu
                 }

@@ -47,8 +47,8 @@ INSERT INTO kontinente (name) VALUES
 ('Asien'),
 ('Europa'),
 ('Nordamerika'),
-('Südamerika'),
-('Australien/Ozeanien'),
+('Suedamerika'),
+('Ozeanien'),
 ('Antarktika');
 
 -- Länder einfügen

@@ -145,35 +145,48 @@ namespace SaschaKleinen
         // Klick-Event für den Button, um zum nächsten Tab zu wechseln
         private void btnKontinentWeiter_Click(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder(); // Erstellt einen neuen StringBuilder
-
-            difmult = 0; // Setzt den Multiplikator zurück
+            StringBuilder sb = new StringBuilder();
+            difmult = 0;
             setzeDifmult();
 
-            if (checkBoxAlle.Checked && panelKontinentSingleSelect.Enabled == false)
+            // Füge diesen Abschnitt hinzu, um INI-basierte Kontinente zu laden
+            if (checkBoxSchwierigkeitIni.Checked)
             {
-                liKontinente = db.getKontinente(); // Lädt alle Kontinente
-
+                // Lade die aus der INI ausgewählten Kontinente
+                foreach (CheckBox cb in panelKontinentSingleSelect.Controls)
+                {
+                    if (cb.Checked)
+                    {
+                        sb.Append("'" + cb.Text + "'" + ", ");
+                    }
+                }
+                if (sb.Length > 0)
+                {
+                    sb.Length -= 2;
+                }
+                liKontinente = db.difKontinente(sb.ToString());
             }
-            else if (!checkBoxAlle.Checked && panelKontinentSingleSelect.Enabled == true)
+            else if (checkBoxAlle.Checked)
+            {
+                liKontinente = db.getKontinente();
+            }
+            else
             {
                 foreach (CheckBox cb in panelKontinentSingleSelect.Controls)
                 {
                     if (cb.Checked)
                     {
-                        sb.Append("'" + cb.Text + "'" + ", "); // Fügt den ausgewählten Kontinenten den StringBuilder hinzu
+                        sb.Append("'" + cb.Text + "'" + ", ");
                     }
                 }
                 if (sb.Length > 0)
                 {
-                    sb.Length -= 2; // Entfernt die letzten beiden Zeichen
+                    sb.Length -= 2;
                 }
-
-                liKontinente = db.difKontinente(sb.ToString()); // Lädt die ausgewählten Kontinente
-
+                liKontinente = db.difKontinente(sb.ToString());
             }
 
-            tabControlSpiel.SelectedTab = tabPageFrageAntworttyp; // Wechselt zum nächsten Tab
+            tabControlSpiel.SelectedTab = tabPageFrageAntworttyp;
 
         }
 
@@ -314,8 +327,6 @@ namespace SaschaKleinen
                     }
                     break;
             }
-
-
         }
 
 
@@ -992,7 +1003,6 @@ namespace SaschaKleinen
                     {
                         if (cb.Text == key.KeyName && key.Value == "1")
                         {
-                            //MessageBox.Show("Key: " + key.KeyName + " Value: " + key.Value);
                             cb.Checked = true;
                         }
                     }

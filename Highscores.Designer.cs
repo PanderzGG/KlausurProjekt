@@ -189,12 +189,12 @@
             dataGridViewAllScores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewAllScores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewAllScores.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
-            dataGridViewAllScores.Location = new Point(170, 26);
+            dataGridViewAllScores.Location = new Point(170, 118);
             dataGridViewAllScores.MultiSelect = false;
             dataGridViewAllScores.Name = "dataGridViewAllScores";
             dataGridViewAllScores.ReadOnly = true;
             dataGridViewAllScores.RowHeadersVisible = false;
-            dataGridViewAllScores.Size = new Size(428, 423);
+            dataGridViewAllScores.Size = new Size(428, 331);
             dataGridViewAllScores.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1

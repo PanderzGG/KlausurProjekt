@@ -424,6 +424,7 @@
             btnFATZurueck.TabIndex = 0;
             btnFATZurueck.Text = "Zurück";
             btnFATZurueck.UseVisualStyleBackColor = true;
+            btnFATZurueck.Click += btnFATZurueck_Click_1;
             // 
             // tabPageSpiel
             // 
@@ -458,7 +459,7 @@
             btnAntwortBildNext.TabIndex = 3;
             btnAntwortBildNext.Text = "Bestätigen";
             btnAntwortBildNext.UseVisualStyleBackColor = true;
-            btnAntwortBildNext.Click += btnAntwortBildNext_Click;
+            btnAntwortBildNext.Click += nextButtons;
             // 
             // groupBildAntworten
             // 
@@ -609,7 +610,7 @@
             btnFlaggeAntwortNext.TabIndex = 4;
             btnFlaggeAntwortNext.Text = "Bestätigen";
             btnFlaggeAntwortNext.UseVisualStyleBackColor = true;
-            btnFlaggeAntwortNext.Click += btnFlaggeAntwortNext_Click;
+            btnFlaggeAntwortNext.Click += nextButtons;
             // 
             // rbFlaggeAntwort
             // 
@@ -782,7 +783,7 @@
             btnTextOnlyNext.TabIndex = 6;
             btnTextOnlyNext.Text = "Bestätigen";
             btnTextOnlyNext.UseVisualStyleBackColor = true;
-            btnTextOnlyNext.Click += btnTextOnlyNext_Click;
+            btnTextOnlyNext.Click += nextButtons;
             // 
             // lbFrageText
             // 

@@ -77,3 +77,4 @@ C:\Users\sasch\source\repos\SaschaKleinen\SaschaKleinen\bin\Debug\net8.0-windows
 C:\Users\sasch\source\repos\SaschaKleinen\SaschaKleinen\bin\Debug\net8.0-windows\difficulty.ini
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\bin\Debug\net8.0-windows\difficulty.ini
 C:\Users\Sa.Kleinen\source\repos\KlausurProjekt-main\bin\Debug\net8.0-windows\INIFileParser.dll
+C:\Users\sasch\source\repos\SaschaKleinen\SaschaKleinen\obj\Debug\net8.0-windows\SaschaKleinen.sourcelink.json

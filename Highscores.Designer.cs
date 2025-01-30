@@ -41,6 +41,7 @@
             punktzahl = new DataGridViewTextBoxColumn();
             datum = new DataGridViewTextBoxColumn();
             tabPageAllePunkte = new TabPage();
+            label1 = new Label();
             dataGridViewAllScores = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
@@ -173,6 +174,7 @@
             // 
             // tabPageAllePunkte
             // 
+            tabPageAllePunkte.Controls.Add(label1);
             tabPageAllePunkte.Controls.Add(dataGridViewAllScores);
             tabPageAllePunkte.Location = new Point(4, 24);
             tabPageAllePunkte.Name = "tabPageAllePunkte";
@@ -181,6 +183,16 @@
             tabPageAllePunkte.TabIndex = 2;
             tabPageAllePunkte.Text = "Alles Punkte";
             tabPageAllePunkte.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 45F);
+            label1.Location = new Point(221, 33);
+            label1.Name = "label1";
+            label1.Size = new Size(327, 81);
+            label1.TabIndex = 2;
+            label1.Text = "Highscores";
             // 
             // dataGridViewAllScores
             // 
@@ -230,6 +242,7 @@
             tabPageEinzelPunkte.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewEinzelScores).EndInit();
             tabPageAllePunkte.ResumeLayout(false);
+            tabPageAllePunkte.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewAllScores).EndInit();
             ResumeLayout(false);
         }
@@ -253,5 +266,6 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private Label label1;
     }
 }

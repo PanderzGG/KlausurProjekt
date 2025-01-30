@@ -10,7 +10,8 @@ namespace SaschaKleinen
 
         private Spieler spieler = new Spieler(); // Speichert den aktuellen Spielernamen
         private string checkedFrage; // Speichert den ausgewählten Fragetyp
-        private string curGame;
+
+        private string[] currentGame = new string[2];
 
         private bool spielt = false;
 
@@ -135,7 +136,7 @@ namespace SaschaKleinen
 
         private void endScoreBerechnen()
         {
-            endScore = score * difmult * maxstreak * score;
+            endScore = score * difmult * (maxstreak * score);
         }
 
         #endregion
@@ -198,6 +199,8 @@ namespace SaschaKleinen
         // Methode die ausgeführt wird, wenn der Button 'Spiel beginnen' geklickt wird
         private void btnSpielbeginnen_Click(object sender, EventArgs e)
         {
+            string Fragetyp;
+            string Antworttyp;
             tabControlSpiel.SelectedTab = tabPageSpiel; // Wechselt zum Spiel-Tab
 
             switch (checkedFrage)
@@ -212,8 +215,10 @@ namespace SaschaKleinen
                         if (!spielt) // Überprüfung, ob das Spiel schon läuft
                         {
                             frageNr = 1;
-                            string land = "land"; // Parameter für das Flaggen-Frage-Spiel
-                            bildFrageSpiel(land); // Startet das Bild-Frage-Spiel für Flaggen und Länder
+                            Fragetyp = "BildFrage";
+                            Antworttyp = "land";
+
+                            spielLogik(Fragetyp, Antworttyp);
                         }
                         else
                         {
@@ -231,8 +236,10 @@ namespace SaschaKleinen
                         if (!spielt)
                         {
                             frageNr = 1; // Setzt die aktuelle Frage auf 1
-                            string hauptstadt = "hauptstadt"; // Parameter für die Hauptstadt
-                            bildFrageSpiel(hauptstadt); // Startet das Bild-Frage-Spiel für Flaggen und Hauptstädte
+                            Fragetyp = "BildFrage";
+                            Antworttyp = "hauptstadt";
+                            
+                            spielLogik(Fragetyp, Antworttyp);
                         }
                         else
                         {
@@ -256,8 +263,10 @@ namespace SaschaKleinen
                         if (!spielt)
                         {
                             frageNr = 1;
-                            string hauptstadt = "hauptstadt"; // Parameter für Hauptstadtnamen
-                            textFrageSpiel(hauptstadt); // Startet das Text-Frage-Spiel für Hauptstädte
+                            Fragetyp = "TextAntwort";
+                            Antworttyp = "hauptstadt";
+                            
+                            spielLogik(Fragetyp, Antworttyp);
                         }
                         else
                         {
@@ -275,7 +284,10 @@ namespace SaschaKleinen
                         {
                             frageNr = 1; // Setzt die aktuelle Frage auf 1
                             string hauptstadt = "hauptstadt"; // Parameter für Hauptstadtnamen
-                            bildAntwortSpiel(hauptstadt); // Startet das Bild-Antwort-Spiel mit Städten
+                            Fragetyp = "BildAntwort";
+                            Antworttyp = "hauptstadt";
+                            // bildAntwortSpiel(hauptstadt); 
+                            spielLogik(Fragetyp, Antworttyp);
                         }
                     }
                     else
@@ -294,8 +306,10 @@ namespace SaschaKleinen
                         if (!spielt)
                         {
                             frageNr = 1; // Setzt die aktuelle Frage auf 1
-                            string land = "land"; // Parameter für Landesnamen
-                            textFrageSpiel(land); // Startet das Text-Frage-Spiel für Länder
+                            Fragetyp = "TextAntwort";
+                            Antworttyp = "land";
+
+                            spielLogik(Fragetyp, Antworttyp);
                         }
                         else
                         {
@@ -313,7 +327,10 @@ namespace SaschaKleinen
                         {
                             frageNr = 1; // Setzt die aktuelle Frage auf 1
                             string land = "land"; // Parameter für Landesnamen
-                            bildAntwortSpiel(land); // Startet das Bild-Antwort-Spiel für Länder
+                            Fragetyp = "BildAntwort";
+                            Antworttyp = "land";
+                            //bildAntwortSpiel(land);
+                            spielLogik(Fragetyp, Antworttyp);
                         }
                         else
                         {
@@ -329,339 +346,201 @@ namespace SaschaKleinen
             }
         }
 
+        private void checkBoxSchwierigkeitIni_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSchwierigkeitIni.Checked)
+            {
+                panelKontinentSelectAll.Enabled = false;
+                panelKontinentSingleSelect.Enabled = false;
+                panelSchwierigkeitsini.Enabled = true;
 
+                clearKontinentCheckboxes();
+            }
+            else
+            {
+                panelKontinentSelectAll.Enabled = true;
+                panelKontinentSingleSelect.Enabled = true;
+                panelSchwierigkeitsini.Enabled = false;
 
+                clearKontinentCheckboxes();
+            }
+        }
+
+        private void comboBoxSchwierigkeitsIni_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Ini handling
+            FileIniDataParser parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("difficulty.ini");
+
+            string difficulty = comboBoxSchwierigkeitsIni.SelectedItem.ToString();
+
+            switch (difficulty)
+            {
+                case "Leicht":
+                    clearKontinentCheckboxes();
+                    setDifficultyIni(difficulty);
+                    break;
+                case "Mittel":
+                    clearKontinentCheckboxes();
+                    setDifficultyIni(difficulty);
+                    break;
+                case "Schwer":
+                    clearKontinentCheckboxes();
+                    setDifficultyIni(difficulty);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void setDifficultyIni(string difficulty)
+        {
+            FileIniDataParser parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("difficulty.ini");
+
+            foreach (KeyData key in data[difficulty])
+            {
+                foreach (Control ctrl in panelKontinentSingleSelect.Controls)
+                {
+                    if (ctrl is CheckBox cb)
+                    {
+                        if (cb.Text == key.KeyName && key.Value == "1")
+                        {
+                            cb.Checked = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void clearKontinentCheckboxes()
+        {
+            foreach (Control ctrl in panelKontinentSingleSelect.Controls)
+            {
+                if (ctrl is CheckBox cb)
+                {
+                    cb.Checked = false;
+                }
+            }
+
+            checkBoxAlle.Checked = false;
+        }
 
         #endregion
 
         #region Spiellogik
-        private void bildFrageSpiel(string typ)
+        
+        private void testMethode(string Fragetyp, string Antworttyp)
         {
-            int indexGesucht = 0;
-            int istVorhanden;
-            int radioIndex;
-
-            List<string> antworten = new List<string>();
-
-            string gesuchtesLand;
-            string gesuchteStadt;
-            string gesuchteFlagge;
-            string quellPfad;
-
-            curGame = typ;
-
-            switch (typ)
-            {
-                case "land":
-                    do
-                    {
-                        indexGesucht = ran.Next(0, liLaender.Count);
-                        gesuchtesLand = liLaender[indexGesucht].LandName;
-                        gesuchteStadt = liLaender[indexGesucht].Hauptstadt;
-                        gesuchteFlagge = liLaender[indexGesucht].FlaggenPfad;
-
-                        istVorhanden = liKontinente.FindIndex(k => k.KontinentID == liLaender[indexGesucht].KontinentID);
-                    }
-                    while (istVorhanden == -1);
-
-                    quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteFlagge);
-
-                    antworten.Clear();
-                    antworten.Add(gesuchtesLand);
-
-                    while (antworten.Count < 4)
-                    {
-                        int falscherIndex = ran.Next(0, liLaender.Count);
-                        string falschesLand = liLaender[falscherIndex].LandName;
-
-                        if (!antworten.Contains(falschesLand) && falscherIndex != indexGesucht)
-                        {
-                            antworten.Add(falschesLand);
-                        }
-                    }
-
-                    antworten = antworten.OrderBy(a => ran.Next()).ToList();
-
-                    lbFrageBildText.Text = "Wähle das zugehörige Land dieser Flagge: ";
-                    pbFrageFlagge.Image = Image.FromFile(quellPfad);
-
-                    radioIndex = 0;
-
-                    foreach (Control ctrl in rbFlaggeAntwort.Controls)
-                    {
-                        if (ctrl is RadioButton rb)
-                        {
-                            rb.Text = antworten[radioIndex];
-                            radioIndex++;
-
-                            rb.Tag = (antworten[radioIndex - 1] == gesuchtesLand);
-                        }
-                    }
-                    break;
-
-                case "hauptstadt":
-                    do
-                    {
-                        indexGesucht = ran.Next(0, liLaender.Count);
-                        gesuchtesLand = liLaender[indexGesucht].LandName;
-                        gesuchteStadt = liLaender[indexGesucht].Hauptstadt;
-                        gesuchteFlagge = liLaender[indexGesucht].FlaggenPfad;
-
-                        istVorhanden = liKontinente.FindIndex(k => k.KontinentID == liLaender[indexGesucht].KontinentID);
-                    }
-                    while (istVorhanden == -1);
-
-                    quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteFlagge);
-
-                    antworten.Clear();
-                    antworten.Add(gesuchteStadt);
-
-                    while (antworten.Count < 4)
-                    {
-                        int falscherIndex = ran.Next(0, liLaender.Count);
-                        string falscheHauptstadt = liLaender[falscherIndex].Hauptstadt;
-
-                        if (!antworten.Contains(falscheHauptstadt) && falscherIndex != indexGesucht)
-                        {
-                            antworten.Add(falscheHauptstadt);
-                        }
-                    }
-
-                    antworten = antworten.OrderBy(a => ran.Next()).ToList();
-
-                    lbFrageBildText.Text = "Wähle die zugehörige Hauptstadt dieses Landes: ";
-                    pbFrageFlagge.Image = Image.FromFile(quellPfad);
-
-                    radioIndex = 0;
-
-                    foreach (Control ctrl in rbFlaggeAntwort.Controls)
-                    {
-                        if (ctrl is RadioButton rb)
-                        {
-                            rb.Text = antworten[radioIndex];
-                            radioIndex++;
-
-                            rb.Tag = (antworten[radioIndex - 1] == gesuchteStadt);
-                        }
-                    }
-                    break;
-            }
-        }
-
-        private void textFrageSpiel(string typ)
-        {
-            int indexGesucht = 0;
-            int istVorhanden;
-            int radioIndex;
-
-            string gesuchtesLand = "";
-            string gesuchteStadt = "";
-
-            List<string> antworten = new List<string>();
-
-            curGame = typ;
-
-            switch (typ)
-            {
-                case "hauptstadt":
-                    do
-                    {
-                        indexGesucht = ran.Next(0, liLaender.Count);
-                        gesuchtesLand = liLaender[indexGesucht].LandName;
-                        gesuchteStadt = liLaender[indexGesucht].Hauptstadt;
-
-                        istVorhanden = liKontinente.FindIndex(k => k.KontinentID == liLaender[indexGesucht].KontinentID);
-                    }
-                    while (istVorhanden == -1);
-
-                    antworten.Clear();
-                    antworten.Add(gesuchteStadt);
-
-                    while (antworten.Count < 4)
-                    {
-                        int falscherIndex = ran.Next(0, liLaender.Count);
-                        string falscheHauptstadt = liLaender[falscherIndex].Hauptstadt;
-
-                        if (!antworten.Contains(falscheHauptstadt) && falscherIndex != indexGesucht)
-                        {
-                            antworten.Add(falscheHauptstadt);
-                        }
-                    }
-
-                    antworten = antworten.OrderBy(a => ran.Next()).ToList();
-
-                    lbFrageText.Text = "Wie heißt die Hauptstadt von " + gesuchtesLand;
-
-                    radioIndex = 0;
-
-                    foreach (Control ctrl in groupBoxTextOnly.Controls)
-                    {
-                        if (ctrl is RadioButton rb)
-                        {
-                            rb.Text = antworten[radioIndex];
-                            radioIndex++;
-
-                            rb.Tag = (antworten[radioIndex - 1] == gesuchteStadt);
-                        }
-                    }
-
-                    break;
-                case "land":
-                    do
-                    {
-                        indexGesucht = ran.Next(0, liLaender.Count);
-                        gesuchtesLand = liLaender[indexGesucht].LandName;
-                        gesuchteStadt = liLaender[indexGesucht].Hauptstadt;
-
-                        istVorhanden = liKontinente.FindIndex(k => k.KontinentID == liLaender[indexGesucht].KontinentID);
-                    }
-                    while (istVorhanden == -1);
-
-
-                    antworten.Clear();
-                    antworten.Add(gesuchtesLand);
-
-                    while (antworten.Count < 4)
-                    {
-                        int falscherIndex = ran.Next(0, liLaender.Count);
-                        string falschesLand = liLaender[falscherIndex].LandName;
-
-                        if (!antworten.Contains(falschesLand) && falscherIndex != indexGesucht)
-                        {
-                            antworten.Add(falschesLand);
-                        }
-                    }
-
-                    antworten = antworten.OrderBy(a => ran.Next()).ToList();
-
-                    lbFrageText.Text = "Von welchem Land ist " + gesuchteStadt + " die Hauptstadt?";
-
-                    radioIndex = 0;
-
-                    foreach (Control ctrl in groupBoxTextOnly.Controls)
-                    {
-                        if (ctrl is RadioButton rb)
-                        {
-                            rb.Text = antworten[radioIndex];
-                            radioIndex++;
-
-                            rb.Tag = (antworten[radioIndex - 1] == gesuchtesLand);
-                        }
-                    }
-
-                    break;
-            }
-        }
-
-        private void bildAntwortSpiel(string typ)
-        {
-            int indexGesucht = 0;
+            int indexGesucht;
+            int falscherIndex;
             int istVorhanden;
             int radioIndex;
 
             List<Laender> antworten = new List<Laender>();
 
-            Laender gesuchtesLand;
-            Laender gesuchteStadt;
-            string gesuchteFlagge;
+            Laender gesuchteAntwort;
+            Laender falscheAntwort;
+
             string quellPfad;
 
-            curGame = typ;
-
-            switch (typ)
+            do
             {
-                case "land":
-                    do
+                indexGesucht = ran.Next(0, liLaender.Count);
+                gesuchteAntwort = liLaender[indexGesucht];
+
+                istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
+            }
+            while(istVorhanden == -1);
+
+            antworten.Clear();
+            antworten.Add(gesuchteAntwort);
+
+            while(antworten.Count < 4)
+            {
+                falscherIndex = ran.Next(0, liLaender.Count);
+                falscheAntwort = liLaender[falscherIndex];
+
+                if(!antworten.Contains(falscheAntwort) && falscherIndex != indexGesucht)
+                {
+                    antworten.Add(falscheAntwort);
+                }
+            }
+
+            antworten = antworten.OrderBy(a => ran.Next()).ToList();
+
+            switch (Fragetyp)
+            {
+                case "TextAntwort":
+                    switch (Antworttyp)
                     {
-                        indexGesucht = ran.Next(0, liLaender.Count);
-                        gesuchtesLand = liLaender[indexGesucht];
-
-                        istVorhanden = liKontinente.FindIndex(k => k.KontinentID == liLaender[indexGesucht].KontinentID);
+                        case "hauptstadt":
+                            lbFrageText.Text = "Wie heißt die Hauptstadt von " + gesuchteAntwort.LandName;
+                            break;
+                        case "land":
+                            lbFrageText.Text = "Von welchem Land ist " + gesuchteAntwort.Hauptstadt + " die Hauptstadt?";
+                            break;
                     }
-                    while (istVorhanden == -1);
-
-                    quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchtesLand.FlaggenPfad);
-
-                    antworten.Clear();
-                    antworten.Add(gesuchtesLand);
-
-                    while (antworten.Count < 4)
+                    break;
+                case "BildFrage":
+                    switch (Antworttyp)
                     {
-                        int falscherIndex = ran.Next(0, liLaender.Count);
-                        Laender falschesLand = liLaender[falscherIndex];
-
-                        if (!antworten.Contains(falschesLand) && falscherIndex != indexGesucht)
-                        {
-                            antworten.Add(falschesLand);
-                        }
+                        case "hauptstadt":
+                            lbFrageBildText.Text = "Wähle die zugehörige Hauptstadt dieses Landes: ";
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+                            pbFrageFlagge.Image = Image.FromFile(quellPfad);
+                            break;
+                        case "land":
+                            lbFrageBildText.Text = "Zu welchem Land gehört diese Flagge? ";
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+                            pbFrageFlagge.Image = Image.FromFile(quellPfad);
+                            break;
                     }
+                    break;
+                case "BildAntwort":
+                    switch (Antworttyp)
+                    {
+                        case "hauptstadt":
+                            lbAntwortBildFrageText.Text = "Welche Landesflagge gehört zu " + gesuchteAntwort.Hauptstadt + "?";
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+                            break;
+                        case "land":
+                            lbAntwortBildFrageText.Text = "Welche Flagge gehört zu " + gesuchteAntwort.LandName.ToString() + "?";
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+                            break;
+                    }
+                    break;
+            }
 
-                    antworten = antworten.OrderBy(a => ran.Next()).ToList();
+            radioIndex = 0;
 
-                    lbAntwortBildFrageText.Text = "Welche Flagge gehört zu " + gesuchtesLand.LandName.ToString() + "?";
-                    radioIndex = 0;
-
-                    foreach (Control ctrl in groupBildAntworten.Controls)
+            switch (Fragetyp)
+            {
+                case "TextAntwort":
+                    foreach (Control ctrl in groupBoxTextOnly.Controls)
                     {
                         if (ctrl is RadioButton rb)
                         {
-                            rb.Text = antworten[radioIndex].LandName;
-
-                            switch (rb.Name)
-                            {
-                                case "rbBildAntwort1":
-                                    pbAntwort1.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
-                                    break;
-                                case "rbBildAntwort2":
-                                    pbAntwort2.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
-                                    break;
-                                case "rbBildAntwort3":
-                                    pbAntwort3.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
-                                    break;
-                                case "rbBildAntwort4":
-                                    pbAntwort4.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
-                                    break;
-                            }
-
+                            rb.Text = antworten[radioIndex].Hauptstadt;
                             radioIndex++;
 
-                            rb.Tag = (antworten[radioIndex - 1] == gesuchtesLand);
+                            rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
                         }
                     }
                     break;
-
-                case "hauptstadt":
-                    do
+                case "BildFrage":
+                    foreach (Control ctrl in rbFlaggeAntwort.Controls)
                     {
-                        indexGesucht = ran.Next(0, liLaender.Count);
-                        gesuchtesLand = liLaender[indexGesucht];
-
-                        istVorhanden = liKontinente.FindIndex(k => k.KontinentID == liLaender[indexGesucht].KontinentID);
-                    }
-                    while (istVorhanden == -1);
-
-                    quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchtesLand.FlaggenPfad);
-
-                    antworten.Clear();
-                    antworten.Add(gesuchtesLand);
-
-                    while (antworten.Count < 4)
-                    {
-                        int falscherIndex = ran.Next(0, liLaender.Count);
-                        Laender falschesLand = liLaender[falscherIndex];
-
-                        if (!antworten.Contains(falschesLand) && falscherIndex != indexGesucht)
+                        if (ctrl is RadioButton rb)
                         {
-                            antworten.Add(falschesLand);
+                            rb.Text = antworten[radioIndex].Hauptstadt;
+                            radioIndex++;
+
+                            rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
                         }
                     }
-
-                    antworten = antworten.OrderBy(a => ran.Next()).ToList();
-
-                    lbAntwortBildFrageText.Text = "Welche Landesflagge gehört zu " + gesuchtesLand.Hauptstadt + "?";
-
-                    radioIndex = 0;
-
+                    break;
+                case "BildAntwort":
                     foreach (Control ctrl in groupBildAntworten.Controls)
                     {
                         if (ctrl is RadioButton rb)
@@ -693,11 +572,355 @@ namespace SaschaKleinen
 
                             radioIndex++;
 
-                            rb.Tag = (antworten[radioIndex - 1] == gesuchtesLand);
+                            rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
                         }
                     }
                     break;
             }
+        }
+        
+        
+        private void spielLogik(string Fragetyp, string Antworttyp)
+        {
+            int indexGesucht;
+            int falscherIndex;
+            int istVorhanden;
+            int radioIndex;
+
+            List<Laender> antworten = new List<Laender>();
+
+            Laender gesuchteAntwort;
+            Laender falscheAntwort;
+
+            string quellPfad;
+
+            currentGame = new string[] {Fragetyp, Antworttyp};
+
+            switch (Fragetyp)
+            {
+                case "TextAntwort":
+
+                    switch (Antworttyp)
+                    {
+                        case "hauptstadt":
+                            do
+                            {
+                                indexGesucht = ran.Next(0, liLaender.Count);
+                                gesuchteAntwort= liLaender[indexGesucht];
+                                
+
+                                istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
+                            }
+                            while (istVorhanden == -1);
+
+                            antworten.Clear();
+                            antworten.Add(gesuchteAntwort);
+
+                            while(antworten.Count < 4)
+                            {
+                                falscherIndex = ran.Next(0, liLaender.Count);
+                                falscheAntwort = liLaender[falscherIndex];
+
+                                if (!antworten.Contains(falscheAntwort) && falscherIndex != indexGesucht)
+                                {
+                                    antworten.Add(falscheAntwort);
+                                }
+                            }
+
+                            antworten = antworten.OrderBy(a => ran.Next()).ToList();
+
+                            lbFrageText.Text = "Wie heißt die Hauptstadt von " + gesuchteAntwort.LandName;
+
+                            radioIndex = 0;
+
+                            foreach (Control ctrl in groupBoxTextOnly.Controls)
+                            {
+                                if(ctrl is RadioButton rb)
+                                {
+                                    rb.Text = antworten[radioIndex].Hauptstadt;
+                                    radioIndex++;
+
+                                    rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
+                                }
+                            }
+                            break;
+                        case "land":
+                            do
+                            {
+                                indexGesucht = ran.Next(0, liLaender.Count);
+                                gesuchteAntwort= liLaender[indexGesucht];
+                                
+
+                                istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
+                            }
+                            while (istVorhanden == -1);
+
+                            antworten.Clear();
+                            antworten.Add(gesuchteAntwort);
+
+                            while(antworten.Count < 4)
+                            {
+                                falscherIndex = ran.Next(0, liLaender.Count);
+                                falscheAntwort = liLaender[falscherIndex];
+
+                                if(!antworten.Contains(falscheAntwort) && falscherIndex != indexGesucht)
+                                {
+                                    antworten.Add(falscheAntwort);
+                                }
+                            }
+
+                            antworten = antworten.OrderBy(a => ran.Next()).ToList();
+
+                            lbFrageText.Text = "Von welchem Land ist " + gesuchteAntwort.Hauptstadt + " die Hauptstadt?";
+
+                            radioIndex = 0;
+
+                            foreach (Control ctrl in groupBoxTextOnly.Controls)
+                            {
+                                if (ctrl is RadioButton rb)
+                                {
+                                    rb.Text = antworten[radioIndex].LandName;
+                                    radioIndex++;
+
+                                    rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
+                                }
+                            }
+                            break;
+                    }
+
+
+                    break;
+                case "BildFrage":
+                    switch (Antworttyp)
+                    {
+                        case "hauptstadt":
+                            do
+                            {
+                                indexGesucht = ran.Next(0, liLaender.Count);
+                                gesuchteAntwort = liLaender[indexGesucht];
+
+                                istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
+                            }
+                            while (istVorhanden == -1);
+
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+
+                            antworten.Clear();
+                            antworten.Add(gesuchteAntwort);
+
+                            while (antworten.Count < 4)
+                            {
+                                falscherIndex = ran.Next(0, liLaender.Count);
+                                falscheAntwort = liLaender[falscherIndex];
+
+                                if (!antworten.Contains(falscheAntwort) && falscherIndex != indexGesucht)
+                                {
+                                    antworten.Add(falscheAntwort);
+                                }
+                            }
+
+                            antworten = antworten.OrderBy(a => ran.Next()).ToList();
+
+                            lbFrageBildText.Text = "Wähle die zugehörige Hauptstadt dieses Landes: ";
+                            pbFrageFlagge.Image = Image.FromFile(quellPfad);
+
+                            radioIndex = 0;
+
+                            foreach (Control ctrl in rbFlaggeAntwort.Controls)
+                            {
+                                if (ctrl is RadioButton rb)
+                                {
+                                    rb.Text = antworten[radioIndex].Hauptstadt;
+                                    radioIndex++;
+
+                                    rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
+                                }
+                            }
+
+                            break;
+                        case "land":
+
+                            do
+                            {
+                                indexGesucht = ran.Next(0, liLaender.Count);
+                                gesuchteAntwort = liLaender[indexGesucht];
+
+                                istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
+
+                            }
+                            while (istVorhanden == -1);
+
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+
+                            antworten.Clear();
+                            antworten.Add(gesuchteAntwort);
+
+                            while (antworten.Count < 4)
+                            {
+                                falscherIndex = ran.Next(0, liLaender.Count);
+                                falscheAntwort = liLaender[falscherIndex];
+
+                                if(!antworten.Contains(falscheAntwort) && falscherIndex != indexGesucht)
+                                {
+                                    antworten.Add(falscheAntwort);
+                                }
+                            }
+
+                            antworten = antworten.OrderBy(a => ran.Next()).ToList();
+
+                            lbFrageBildText.Text = "Zu welchem Land gehört diese Flagge? ";
+                            pbFrageFlagge.Image = Image.FromFile(quellPfad);
+
+                            radioIndex = 0;
+
+                            foreach(Control ctrl in rbFlaggeAntwort.Controls)
+                            {
+                                if(ctrl is RadioButton rb)
+                                {
+                                    rb.Text = antworten[radioIndex].LandName;
+                                    radioIndex++;
+
+                                    rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
+                                }
+                            }
+                            break;
+                    }
+                    break;
+                case "BildAntwort":
+                    switch (Antworttyp)
+                    {
+                        case "hauptstadt":
+                            do
+                            {
+                                indexGesucht = ran.Next(0, liLaender.Count);
+                                gesuchteAntwort = liLaender[indexGesucht];
+
+                                istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
+
+                            }
+                            while (istVorhanden == -1);
+
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+
+                            antworten.Clear();
+                            antworten.Add(gesuchteAntwort);
+
+                            while(antworten.Count < 4)
+                            {
+                                falscherIndex = ran.Next(0, liLaender.Count);
+                                falscheAntwort = liLaender[falscherIndex];
+
+                                if(!antworten.Contains(falscheAntwort) && falscherIndex != indexGesucht)
+                                {
+                                    antworten.Add(falscheAntwort);
+                                }
+                            }
+
+                            antworten = antworten.OrderBy(a => ran.Next()).ToList();
+
+                            lbAntwortBildFrageText.Text = "Welche Landesflagge gehört zu " + gesuchteAntwort.Hauptstadt + "?";
+
+                            radioIndex = 0;
+
+                            foreach (Control ctrl in groupBildAntworten.Controls)
+                            {
+                                if (ctrl is RadioButton rb)
+                                {
+                                    rb.Text = antworten[radioIndex].LandName;
+
+                                    try
+                                    {
+                                        switch (rb.Name)
+                                        {
+                                            case "rbBildAntwort1":
+                                                pbAntwort1.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                                break;
+                                            case "rbBildAntwort2":
+                                                pbAntwort2.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                                break;
+                                            case "rbBildAntwort3":
+                                                pbAntwort3.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                                break;
+                                            case "rbBildAntwort4":
+                                                pbAntwort4.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                                break;
+                                        }
+                                    }
+                                    catch (FileNotFoundException ex)
+                                    {
+                                        MessageBox.Show("Fehler beim Laden der Flagge: " + ex.Message);
+                                    }
+
+                                    radioIndex++;
+
+                                    rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
+                                }
+                            }
+                            break;
+                        case "land":
+
+                            do
+                            {
+                                indexGesucht = ran.Next(0, liLaender.Count);
+                                gesuchteAntwort = liLaender[indexGesucht];
+
+                                istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
+                            }
+                            while (istVorhanden == -1);
+
+                            quellPfad = Path.Combine(Application.StartupPath, "flags", gesuchteAntwort.FlaggenPfad);
+
+                            antworten.Clear();
+                            antworten.Add(gesuchteAntwort);
+
+                            while (antworten.Count < 4)
+                            {
+                                falscherIndex = ran.Next(0, liLaender.Count);
+                                falscheAntwort = liLaender[falscherIndex];
+
+                                if (!antworten.Contains(falscheAntwort) && falscherIndex != indexGesucht)
+                                {
+                                    antworten.Add(falscheAntwort);
+                                }
+                            }
+
+                            antworten = antworten.OrderBy(a => ran.Next()).ToList();
+
+                            lbAntwortBildFrageText.Text = "Welche Flagge gehört zu " + gesuchteAntwort.LandName.ToString() + "?";
+                            radioIndex = 0;
+
+                            foreach (Control ctrl in groupBildAntworten.Controls)
+                            {
+                                if (ctrl is RadioButton rb)
+                                {
+                                    rb.Text = antworten[radioIndex].LandName;
+
+                                    switch (rb.Name)
+                                    {
+                                        case "rbBildAntwort1":
+                                            pbAntwort1.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                            break;
+                                        case "rbBildAntwort2":
+                                            pbAntwort2.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                            break;
+                                        case "rbBildAntwort3":
+                                            pbAntwort3.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                            break;
+                                        case "rbBildAntwort4":
+                                            pbAntwort4.Image = Image.FromFile(Path.Combine(Application.StartupPath, "flags", antworten[radioIndex].FlaggenPfad));
+                                            break;
+                                    }
+
+                                    radioIndex++;
+
+                                    rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
+                                }
+                            }
+                            break;
+                    }
+                    break;
+            }
+            
         }
 
         private void btnTextOnlyNext_Click(object sender, EventArgs e)
@@ -715,7 +938,7 @@ namespace SaschaKleinen
             if (frageNr < maxFragen)
             {
                 frageNr++;
-                textFrageSpiel(curGame);
+                spielLogik(currentGame[0], currentGame[1]);
             }
             else if (frageNr == maxFragen)
             {
@@ -747,7 +970,7 @@ namespace SaschaKleinen
             if (frageNr < maxFragen)
             {
                 frageNr++;
-                bildFrageSpiel(curGame);
+                spielLogik(currentGame[0], currentGame[1]);
             }
             else if (frageNr == maxFragen)
             {
@@ -778,7 +1001,7 @@ namespace SaschaKleinen
             if (frageNr < maxFragen)
             {
                 frageNr++;
-                bildAntwortSpiel(curGame);
+                spielLogik(currentGame[0], currentGame[1]);
             }
             else if (frageNr == maxFragen)
             {
@@ -879,7 +1102,7 @@ namespace SaschaKleinen
         private void gameReset()
         {
             checkedFrage = "";
-            curGame = "";
+            currentGame = new string[] { "", "" };
             frageNr = 1;
             streakmult = 0;
             maxstreak = 0;
@@ -940,88 +1163,6 @@ namespace SaschaKleinen
             rbBildAntwort4.Checked = true;
         }
         #endregion
-
-        private void checkBoxSchwierigkeitIni_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxSchwierigkeitIni.Checked)
-            {
-                panelKontinentSelectAll.Enabled = false;
-                panelKontinentSingleSelect.Enabled = false;
-                panelSchwierigkeitsini.Enabled = true;
-
-                clearKontinentCheckboxes();
-            }
-            else
-            {
-                panelKontinentSelectAll.Enabled = true;
-                panelKontinentSingleSelect.Enabled = true;
-                panelSchwierigkeitsini.Enabled = false;
-
-                clearKontinentCheckboxes();
-            }
-        }
-
-        private void comboBoxSchwierigkeitsIni_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Ini handling
-            FileIniDataParser parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("difficulty.ini");
-
-            string difficulty = comboBoxSchwierigkeitsIni.SelectedItem.ToString();
-
-            switch (difficulty)
-            {
-                case "Leicht":
-                    clearKontinentCheckboxes();
-                    setDifficultyIni(difficulty);
-                    break;
-                case "Mittel":
-                    clearKontinentCheckboxes();
-                    setDifficultyIni(difficulty);
-                    break;
-                case "Schwer":
-                    clearKontinentCheckboxes();
-                    setDifficultyIni(difficulty);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void setDifficultyIni(string difficulty)
-        {
-            FileIniDataParser parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("difficulty.ini");
-
-            foreach (KeyData key in data[difficulty])
-            {
-                MessageBox.Show("Key: " + key.KeyName + " Value: " + key.Value);
-
-                foreach (Control ctrl in panelKontinentSingleSelect.Controls)
-                {
-                    if (ctrl is CheckBox cb)
-                    {
-                        if (cb.Text == key.KeyName && key.Value == "1")
-                        {
-                            cb.Checked = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void clearKontinentCheckboxes()
-        {
-            foreach (Control ctrl in panelKontinentSingleSelect.Controls)
-            {
-                if (ctrl is CheckBox cb)
-                {
-                    cb.Checked = false;
-                }
-            }
-
-            checkBoxAlle.Checked = false;
-        }
     }
 
 }

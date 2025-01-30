@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace SaschaKleinen
 {
+
+    // Definiert Kontinente mit eindeutiger ID für die Spiel-Logik
     public class Kontinente
     {
         private int kontinentID;

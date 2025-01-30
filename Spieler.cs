@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaschaKleinen
 {
+    // Modelliert Spieler-Objekte mit Benutzerdaten für Score-Zuordnung
     public class Spieler
     {
         private int spielerID;

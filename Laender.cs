@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaschaKleinen
 {
+    // Repräsentiert ein Land mit allen relevanten Attributen und Kontinentzuordnung
     public class Laender
     {
         private int landID;

@@ -1,5 +1,6 @@
 ﻿using IniParser;
 using IniParser.Model;
+using System.Diagnostics;
 using System.Text;
 
 namespace SaschaKleinen
@@ -46,20 +47,21 @@ namespace SaschaKleinen
 
         #region onLoad
 
-        // Lädt die Listen aus der Datenbank
+        // Lädt die Länderliste aus der Datenbank
         public void onLoadLists()
         {
             liLaender = db.getLaender();
         }
 
-        // Passt das TabControl-Layout an
+
+        // Blendet die Tabs des TabControls aus und passt das Layout an
         private void hideTabs()
         {
             tabControlSpiel.Appearance = TabAppearance.FlatButtons;
             tabControlSpiel.ItemSize = new Size(0, 1);
             tabControlSpiel.SizeMode = TabSizeMode.Fixed;
         }
-
+        // Lädt die Schwierigkeitsgrade aus der INI-Datei und fügt sie zur ComboBox hinzu
         private void onLoadini()
         {
             FileIniDataParser parser = new FileIniDataParser();
@@ -75,7 +77,7 @@ namespace SaschaKleinen
 
         #region Checkboxes
 
-        // Eventhandler, wenn die Checkbox 'Alle' an-/abgewählt wird
+        // Verarbeitet Zustandsänderung der 'Alle'-Checkbox
         private void checkBoxAlle_CheckedChanged(object sender, EventArgs e)
         {
             bool check;
@@ -90,7 +92,8 @@ namespace SaschaKleinen
                 checkBoxHandling(check);
             }
         }
-
+       
+        // Steuert Checkboxen im Kontinent-Panel basierend auf dem Zustand
         private void checkBoxHandling(bool check)
         {
             if (check)
@@ -142,7 +145,8 @@ namespace SaschaKleinen
         #endregion
 
         #region Misc. Methoden
-
+        
+        // Setzt alle Checkboxen im Kontinent-Panel zurück
         private void clearKontinentCheckboxes()
         {
             foreach (Control ctrl in panelKontinentSingleSelect.Controls)
@@ -155,12 +159,14 @@ namespace SaschaKleinen
 
             checkBoxAlle.Checked = false;
         }
-
+        
+        // Verarbeitet Zustandsänderung des Flaggen-Frage-RadioButtons
         private void rbFrageFlaggen_CheckedChanged(object sender, EventArgs e)
         {
             frageRadioHandling();
         }
 
+        // Setzt die Schwierigkeitsstufe basierend auf der INI-Datei
         private void setDifficultyIni(string difficulty)
         {
             FileIniDataParser parser = new FileIniDataParser();
@@ -181,7 +187,7 @@ namespace SaschaKleinen
             }
         }
 
-        // Klick-Event für den Button, um zum nächsten Tab zu wechseln
+        // Verarbeitet den Klick auf den 'Weiter'-Button und lädt die Kontinente
         private void btnKontinentWeiter_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
@@ -229,7 +235,7 @@ namespace SaschaKleinen
 
         }
 
-        // Methode die ausgeführt wird, wenn der Button 'Spiel beginnen' geklickt wird
+        // Verarbeitet den Spielstart: Initialisiert Fragetyp, Antwortmodus und UI-Elemente, prüft auf laufende Instanzen und behandelt Fehler
         private void btnSpielbeginnen_Click(object sender, EventArgs e)
         {
             string Fragetyp;
@@ -238,12 +244,13 @@ namespace SaschaKleinen
 
             try
             {
+
                 switch (checkedFrage)
                 {
                     case "Flaggen":
                         if (rbAntworttyp1.Checked)
                         {
-                            panelSpielBildFrage.BringToFront(); // Bringt das Bild-Frage-Panel in den Vordergrund
+                            panelSpielBildFrage.Visible = true; // Bringt das Bild-Frage-Panel in den Vordergrund
                             panelSpielBildAntwort.Visible = false; // Blendet das Bild-Antwort-Panel aus
                             panelSpielTextOnly.Visible = false; // Blendet das Text-Panel aus
 
@@ -266,7 +273,7 @@ namespace SaschaKleinen
                         }
                         else if (rbAntworttyp2.Checked)
                         {
-                            panelSpielBildFrage.BringToFront(); // Bringt das Bild-Frage-Panel in den Vordergrund
+                            panelSpielBildFrage.Visible = true; // Bringt das Bild-Frage-Panel in den Vordergrund
                             panelSpielBildAntwort.Visible = false; // Blendet das Bild-Antwort-Panel aus
                             panelSpielTextOnly.Visible = false; // Blendet das Text-Panel aus
 
@@ -295,9 +302,9 @@ namespace SaschaKleinen
                     case "Hauptstädte":
                         if (rbAntworttyp1.Checked)
                         {
-                            panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
-                            panelSpielBildAntwort.SendToBack(); // Schickt das Bild-Antwort-Panel in den Hintergrund
-                            panelSpielTextOnly.BringToFront(); // Zeigt das reine Text-Frage-Panel an
+                            panelSpielBildFrage.Visible = false;
+                            panelSpielBildAntwort.Visible = false;
+                            panelSpielTextOnly.Visible = true;
 
                             if (!spielt)
                             {
@@ -311,23 +318,23 @@ namespace SaschaKleinen
                             }
                             else
                             {
-                                MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
-                                return; // Beendet die Methode, um keine weitere Spielinstanz zu starten
+                                MessageBox.Show("Es läuft bereits eine Instanz des Spiels");
+                                return;
                             }
                         }
                         else if (rbAntworttyp2.Checked)
                         {
-                            panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
-                            panelSpielBildAntwort.BringToFront(); // Bringt das Bild-Antwort-Panel in den Vordergrund
-                            panelSpielTextOnly.SendToBack(); // Schickt das Text-Panel in den Hintergrund
+                            panelSpielBildFrage.Visible = false;
+                            panelSpielBildAntwort.Visible = true;
+                            panelSpielTextOnly.Visible = false;
 
                             if (!spielt)
                             {
-                                frageNr = 1; // Setzt die aktuelle Frage auf 1
+                                frageNr = 1;
                                 spielt = true;
                                 Fragetyp = "BildAntwort";
                                 Antworttyp = "hauptstadt";
-                                // bildAntwortSpiel(hauptstadt); 
+                                
                                 spielLogik(Fragetyp, Antworttyp);
                                 tabControlSpiel.SelectedTab = tabPageSpiel;
                             }
@@ -341,13 +348,13 @@ namespace SaschaKleinen
                     case "Länder":
                         if (rbAntworttyp1.Checked)
                         {
-                            panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
-                            panelSpielBildAntwort.SendToBack(); // Schickt das Bild-Antwort-Panel in den Hintergrund
-                            panelSpielTextOnly.BringToFront(); // Zeigt das reine Text-Frage-Panel an
+                            panelSpielBildFrage.Visible = false; 
+                            panelSpielBildAntwort.Visible = false; 
+                            panelSpielTextOnly.Visible = true;
 
                             if (!spielt)
                             {
-                                frageNr = 1; // Setzt die aktuelle Frage auf 1
+                                frageNr = 1; 
                                 spielt = true;
                                 Fragetyp = "TextAntwort";
                                 Antworttyp = "land";
@@ -357,19 +364,19 @@ namespace SaschaKleinen
                             }
                             else
                             {
-                                MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
-                                return; // Methode beenden, wenn Spiel bereits läuft
+                                MessageBox.Show("Es läuft bereits eine Instanz des Spiels");
+                                return;
                             }
                         }
                         else if (rbAntworttyp2.Checked)
                         {
-                            panelSpielBildFrage.SendToBack(); // Schickt das Bild-Frage-Panel in den Hintergrund
-                            panelSpielBildAntwort.BringToFront(); // Zeigt das Bild-Antwort-Panel an
-                            panelSpielTextOnly.SendToBack(); // Blendet das Text-Panel aus
+                            panelSpielBildFrage.Visible = false; 
+                            panelSpielBildAntwort.Visible = true;
+                            panelSpielTextOnly.Visible = false;
 
                             if (!spielt)
                             {
-                                frageNr = 1; // Setzt die aktuelle Frage auf 1
+                                frageNr = 1;
                                 spielt = true;
                                 Fragetyp = "BildAntwort";
                                 Antworttyp = "land";
@@ -379,8 +386,8 @@ namespace SaschaKleinen
                             }
                             else
                             {
-                                MessageBox.Show("Es läuft bereits eine Instanz des Spiels"); // Warnung bei laufendem Spiel
-                                return; // Methode beenden
+                                MessageBox.Show("Es läuft bereits eine Instanz des Spiels");
+                                return;
                             }
                         }
                         else
@@ -408,6 +415,7 @@ namespace SaschaKleinen
 
         }
 
+        // Schwierigkeits-Ini umschalten
         private void checkBoxSchwierigkeitIni_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxSchwierigkeitIni.Checked)
@@ -428,6 +436,7 @@ namespace SaschaKleinen
             }
         }
 
+        // Schwierigkeit aus Ini laden
         private void comboBoxSchwierigkeitsIni_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Ini handling
@@ -454,8 +463,8 @@ namespace SaschaKleinen
                     break;
             }
         }
-
-        private void btnFATZurueck_Click(object sender, EventArgs e)
+        // Zurück zu Kontinenten-Tab
+        private void btnFATZurueck_Click_1(object sender, EventArgs e)
         {
             tabControlSpiel.SelectedTab = tabPageKontinente;
         }
@@ -464,6 +473,7 @@ namespace SaschaKleinen
 
         #region Spiellogik
 
+        // Steuert die gesamte Spielrunden-Logik: Fragenerstellung, Antwortmischung und UI-Update
         private void spielLogik(string Fragetyp, string Antworttyp)
         {
             int indexGesucht;
@@ -480,6 +490,7 @@ namespace SaschaKleinen
 
             string quellPfad;
 
+            // Zufällige Auswahl eines gültigen Landes (passend zum gewählten Kontinent)
             do
             {
                 indexGesucht = ran.Next(0, liLaender.Count);
@@ -487,8 +498,9 @@ namespace SaschaKleinen
 
                 istVorhanden = liKontinente.FindIndex(k => k.KontinentID == gesuchteAntwort.KontinentID);
             }
-            while (istVorhanden == -1);
+            while (istVorhanden == -1); // Wiederhole, bis ein passendes Land gefunden wurde
 
+            // Generiere 3 falsche Antworten + 1 richtige Antwort
             antworten.Clear();
             antworten.Add(gesuchteAntwort);
 
@@ -505,9 +517,11 @@ namespace SaschaKleinen
 
             antworten = antworten.OrderBy(a => ran.Next()).ToList();
 
+            // Setze Frage-UI basierend auf Fragetyp
             switch (Fragetyp)
             {
                 case "TextAntwort":
+                    // Textbasierte Frage (Land ↔ Hauptstadt)
                     switch (Antworttyp)
                     {
                         case "hauptstadt":
@@ -519,6 +533,7 @@ namespace SaschaKleinen
                     }
                     break;
                 case "BildFrage":
+                    // Bildfrage (Flagge + Textantwort)
                     switch (Antworttyp)
                     {
                         case "hauptstadt":
@@ -534,6 +549,7 @@ namespace SaschaKleinen
                     }
                     break;
                 case "BildAntwort":
+                    // Bildantwort (Flaggen in RadioButtons)
                     switch (Antworttyp)
                     {
                         case "hauptstadt":
@@ -550,9 +566,11 @@ namespace SaschaKleinen
 
             radioIndex = 0;
 
+            // Befülle die RadioButtons mit Antwortoptionen
             switch (Fragetyp)
             {
                 case "TextAntwort":
+                    // Textantwort-Optionen (Land oder Hauptstadt)
                     if (Antworttyp == "land")
                     {
                         foreach (Control ctrl in groupBoxTextOnly.Controls)
@@ -562,7 +580,7 @@ namespace SaschaKleinen
                                 rb.Text = antworten[radioIndex].LandName;
                                 radioIndex++;
 
-                                rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort);
+                                rb.Tag = (antworten[radioIndex - 1] == gesuchteAntwort); // Markiert korrekte Antwort
                             }
                         }
                     }
@@ -581,6 +599,7 @@ namespace SaschaKleinen
                     }
                     break;
                 case "BildFrage":
+                    // Bildfrage mit Textantworten (Hauptstadt oder Land)
                     if (Antworttyp == "hauptstadt")
                     {
                         foreach (Control ctrl in rbFlaggeAntwort.Controls)
@@ -610,6 +629,7 @@ namespace SaschaKleinen
 
                     break;
                 case "BildAntwort":
+                    // Bildantwort mit Flaggenbildern
                     foreach (Control ctrl in groupBildAntworten.Controls)
                     {
                         if (ctrl is RadioButton rb)
@@ -648,31 +668,35 @@ namespace SaschaKleinen
             }
         }
 
+        // Verarbeitet Antworten, steuert Fragensprung und Score-Berechnung für alle Fragetypen
         private void nextButtons(object sender, EventArgs e)
         {
             switch (currentGame[0])
             {
                 case "TextAntwort":
+                    // Überprüfe ausgewählte Antwort in Textfragen
                     foreach (Control ctrl in groupBoxTextOnly.Controls)
                     {
                         if (ctrl is RadioButton rb && rb.Checked)
                         {
                             bool istRichtig = (bool)rb.Tag;
 
-                            streakmultCalc(istRichtig);
+                            streakmultCalc(istRichtig); // Aktualisiere Score-Streak
                         }
                     }
 
+                    // Nächste Frage oder Score-Speicherung
                     if (frageNr < maxFragen)
                     {
                         frageNr++;
-                        spielLogik(currentGame[0], currentGame[1]);
+                        spielLogik(currentGame[0], currentGame[1]); // Lade nächste Frage
                     }
                     else if (frageNr == maxFragen)
                     {
-                        scoreSpeichern();
+                        scoreSpeichern(); // Spielende: Finaler Score
                     }
 
+                    // Zurücksetzen der RadioButtons für neue Frage
                     foreach (Control ctrl in groupBoxTextOnly.Controls)
                     {
                         if (ctrl is RadioButton rb)
@@ -682,6 +706,7 @@ namespace SaschaKleinen
                     }
                     break;
                 case "BildFrage":
+                    // Antwortverarbeitung für Bildfragen (Flagge → Textantwort)
                     foreach (Control ctrl in rbFlaggeAntwort.Controls)
                     {
                         if (ctrl is RadioButton rb && rb.Checked)
@@ -691,7 +716,7 @@ namespace SaschaKleinen
                             streakmultCalc(istRichtig);
                         }
                     }
-
+                    // Fragensprung-Logik (identisch für alle Typen)
                     if (frageNr < maxFragen)
                     {
                         frageNr++;
@@ -701,7 +726,7 @@ namespace SaschaKleinen
                     {
                         scoreSpeichern();
                     }
-
+                    // RadioButton-Reset
                     foreach (Control ctrl in rbFlaggeAntwort.Controls)
                     {
                         if (ctrl is RadioButton rb)
@@ -711,6 +736,7 @@ namespace SaschaKleinen
                     }
                     break;
                 case "BildAntwort":
+                    // Antwortverarbeitung für Bildantworten (Text → Flaggenauswahl)
                     foreach (Control ctrl in groupBildAntworten.Controls)
                     {
                         if (ctrl is RadioButton rb && rb.Checked)
@@ -721,6 +747,7 @@ namespace SaschaKleinen
                         }
                     }
 
+                    
                     if (frageNr < maxFragen)
                     {
                         frageNr++;
@@ -730,7 +757,7 @@ namespace SaschaKleinen
                     {
                         scoreSpeichern();
                     }
-
+                    
                     foreach (Control ctrl in groupBildAntworten.Controls)
                     {
                         if (ctrl is RadioButton rb)
@@ -742,6 +769,7 @@ namespace SaschaKleinen
             }
         }
 
+        // Speichert den Spielstand, zeigt Ergebnisdialog an und verarbeitet Spielneustart/Beenden
         private void scoreSpeichern()
         {
             endScoreBerechnen();
@@ -766,6 +794,7 @@ namespace SaschaKleinen
             }
         }
 
+        // Berechnet und aktualisiert Streak-Multiplikator basierend auf Antwortrichtigkeit
         private void streakmultCalc(bool istRichtig)
         {
             if (istRichtig)
@@ -785,6 +814,7 @@ namespace SaschaKleinen
             }
         }
 
+        // Aktualisiert verfügbare Antworttypen basierend auf ausgewähltem Fragetyp
         private void frageRadioHandling()
         {
 
@@ -822,6 +852,7 @@ namespace SaschaKleinen
             }
         }
 
+        // Setzt alle Spielvariablen, UI-Elemente und Fortschritt für Neustart zurück
         private void gameReset()
         {
             checkedFrage = "";
@@ -835,6 +866,7 @@ namespace SaschaKleinen
             spielt = false;
 
             checkBoxAlle.Checked = false;
+            checkBoxSchwierigkeitIni.Checked = false;
 
             foreach (Control ctrl in panelKontinentSingleSelect.Controls)
             {
@@ -852,20 +884,21 @@ namespace SaschaKleinen
                 }
             }
 
-            foreach (Control ctrl in panelAtnworttyp.Controls)
+            foreach (Control ctrl in panelAntworttyp.Controls)
             {
                 if (ctrl is RadioButton rb)
                 {
                     rb.Checked = false;
                 }
             }
-
             tabControlSpiel.SelectedTab = tabPageKontinente;
         }
 
         #endregion
 
         #region Bild click
+
+        // Bilder lassen sich klicken um die Radiobuttons zu aktivieren
         private void pbAntwort1_Click(object sender, EventArgs e)
         {
             rbBildAntwort1.Checked = true;
@@ -887,10 +920,7 @@ namespace SaschaKleinen
         }
         #endregion
 
-        private void btnFATZurueck_Click_1(object sender, EventArgs e)
-        {
-            tabControlSpiel.SelectedTab = tabPageKontinente;
-        }
+        
     }
 
 }

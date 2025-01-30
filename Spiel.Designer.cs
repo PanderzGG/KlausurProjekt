@@ -45,7 +45,7 @@
             btnKontinentWeiter = new Button();
             lbKontinente = new Label();
             tabPageFrageAntworttyp = new TabPage();
-            panelAtnworttyp = new Panel();
+            panelAntworttyp = new Panel();
             rbAntworttyp2 = new RadioButton();
             rbAntworttyp1 = new RadioButton();
             lbAntworttyp = new Label();
@@ -95,7 +95,7 @@
             panelKontinentSelectAll.SuspendLayout();
             panelKontinentSingleSelect.SuspendLayout();
             tabPageFrageAntworttyp.SuspendLayout();
-            panelAtnworttyp.SuspendLayout();
+            panelAntworttyp.SuspendLayout();
             panelFragentyp.SuspendLayout();
             tabPageSpiel.SuspendLayout();
             panelSpielBildAntwort.SuspendLayout();
@@ -288,7 +288,7 @@
             // 
             // tabPageFrageAntworttyp
             // 
-            tabPageFrageAntworttyp.Controls.Add(panelAtnworttyp);
+            tabPageFrageAntworttyp.Controls.Add(panelAntworttyp);
             tabPageFrageAntworttyp.Controls.Add(panelFragentyp);
             tabPageFrageAntworttyp.Controls.Add(btnSpielbeginnen);
             tabPageFrageAntworttyp.Controls.Add(btnFATZurueck);
@@ -300,15 +300,15 @@
             tabPageFrageAntworttyp.Text = "Frage/Antworttyp";
             tabPageFrageAntworttyp.UseVisualStyleBackColor = true;
             // 
-            // panelAtnworttyp
+            // panelAntworttyp
             // 
-            panelAtnworttyp.Controls.Add(rbAntworttyp2);
-            panelAtnworttyp.Controls.Add(rbAntworttyp1);
-            panelAtnworttyp.Controls.Add(lbAntworttyp);
-            panelAtnworttyp.Location = new Point(13, 282);
-            panelAtnworttyp.Name = "panelAtnworttyp";
-            panelAtnworttyp.Size = new Size(917, 243);
-            panelAtnworttyp.TabIndex = 6;
+            panelAntworttyp.Controls.Add(rbAntworttyp2);
+            panelAntworttyp.Controls.Add(rbAntworttyp1);
+            panelAntworttyp.Controls.Add(lbAntworttyp);
+            panelAntworttyp.Location = new Point(13, 282);
+            panelAntworttyp.Name = "panelAntworttyp";
+            panelAntworttyp.Size = new Size(917, 243);
+            panelAntworttyp.TabIndex = 6;
             // 
             // rbAntworttyp2
             // 
@@ -822,8 +822,8 @@
             panelKontinentSingleSelect.ResumeLayout(false);
             panelKontinentSingleSelect.PerformLayout();
             tabPageFrageAntworttyp.ResumeLayout(false);
-            panelAtnworttyp.ResumeLayout(false);
-            panelAtnworttyp.PerformLayout();
+            panelAntworttyp.ResumeLayout(false);
+            panelAntworttyp.PerformLayout();
             panelFragentyp.ResumeLayout(false);
             panelFragentyp.PerformLayout();
             tabPageSpiel.ResumeLayout(false);
@@ -870,7 +870,7 @@
         private RadioButton rbFrageLand;
         private RadioButton rbFrageFlaggen;
         private Label lbFragentyp;
-        private Panel panelAtnworttyp;
+        private Panel panelAntworttyp;
         private RadioButton rbAntworttyp2;
         private RadioButton rbAntworttyp1;
         private Label lbAntworttyp;

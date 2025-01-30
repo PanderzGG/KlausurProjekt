@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaschaKleinen
 {
+    // Repräsentiert Highscores mit Spielerzuordnung, Punkten und Zeitstempel
     public class Scores
     {
         private int scoreID;

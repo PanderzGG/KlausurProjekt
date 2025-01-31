@@ -42,6 +42,8 @@
             btnSpielerVorhandenSpielen = new Button();
             cbBenutzernamen = new ComboBox();
             lbSpieler = new Label();
+            btnVorhandenZurueck = new Button();
+            btnNeuZurueck = new Button();
             tabControlNeuesSpiel.SuspendLayout();
             tabPageNeuesSpiel.SuspendLayout();
             tabPageNeuerSpieler.SuspendLayout();
@@ -118,6 +120,7 @@
             // 
             // tabPageNeuerSpieler
             // 
+            tabPageNeuerSpieler.Controls.Add(btnNeuZurueck);
             tabPageNeuerSpieler.Controls.Add(btnSpielerNeuSpielen);
             tabPageNeuerSpieler.Controls.Add(tbBenutzername);
             tabPageNeuerSpieler.Controls.Add(lbSpielerName);
@@ -160,6 +163,7 @@
             // 
             // tabPageVorhandenerSpieler
             // 
+            tabPageVorhandenerSpieler.Controls.Add(btnVorhandenZurueck);
             tabPageVorhandenerSpieler.Controls.Add(btnSpielerVorhandenSpielen);
             tabPageVorhandenerSpieler.Controls.Add(cbBenutzernamen);
             tabPageVorhandenerSpieler.Controls.Add(lbSpieler);
@@ -202,6 +206,28 @@
             lbSpieler.TabIndex = 0;
             lbSpieler.Text = "Spieler:";
             // 
+            // btnVorhandenZurueck
+            // 
+            btnVorhandenZurueck.Font = new Font("Segoe UI", 18F);
+            btnVorhandenZurueck.Location = new Point(60, 290);
+            btnVorhandenZurueck.Name = "btnVorhandenZurueck";
+            btnVorhandenZurueck.Size = new Size(150, 50);
+            btnVorhandenZurueck.TabIndex = 3;
+            btnVorhandenZurueck.Text = "Zurück";
+            btnVorhandenZurueck.UseVisualStyleBackColor = true;
+            btnVorhandenZurueck.Click += zurueck;
+            // 
+            // btnNeuZurueck
+            // 
+            btnNeuZurueck.Font = new Font("Segoe UI", 18F);
+            btnNeuZurueck.Location = new Point(146, 275);
+            btnNeuZurueck.Name = "btnNeuZurueck";
+            btnNeuZurueck.Size = new Size(150, 50);
+            btnNeuZurueck.TabIndex = 3;
+            btnNeuZurueck.Text = "Zurück";
+            btnNeuZurueck.UseVisualStyleBackColor = true;
+            btnNeuZurueck.Click += zurueck;
+            // 
             // NeuesSpiel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -236,5 +262,7 @@
         private Label lbSpieler;
         private Button btnSpielerVorhandenSpielen;
         private ComboBox cbBenutzernamen;
+        private Button btnNeuZurueck;
+        private Button btnVorhandenZurueck;
     }
 }

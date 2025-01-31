@@ -114,7 +114,6 @@ INSERT INTO laender (name, hauptstadt, flaggenpfad, kontinentID) VALUES
 ('Guatemala', 'Guatemala-Stadt', 'guatemala.png', 4),
 ('Panama', 'Panama-Stadt', 'panama.png', 4),
 ('Haiti', 'Port-au-Prince', 'haiti.png', 4),
-('Dominikanische Republik', 'Santo Domingo', 'dominikanische_republik.png', 4),
 
 -- Südamerika (kontinentID 5)
 ('Brasilien', 'Brasília', 'brasilien.png', 5),
@@ -134,3 +133,30 @@ INSERT INTO laender (name, hauptstadt, flaggenpfad, kontinentID) VALUES
 ('Fidschi', 'Suva', 'fidschi.png', 6),
 ('Papua-Neuguinea', 'Port Moresby', 'papua_neuguinea.png', 6),
 ('Samoa', 'Apia', 'samoa.png', 6);
+
+INSERT INTO spieler (benutzername) VALUES
+('alex_meister'),
+('lara_quiz'),
+('max_trivia'),
+('sophia_brain'),
+('tom_knobel');
+
+INSERT INTO scores (spielerID, punkte, datum) VALUES
+-- Alex (spielerID=1)
+(1, 12500, '2024-01-15 14:30:00'),
+(1, 9800, '2024-02-01 09:15:00'),
+
+-- Lara (spielerID=2) – Höchster Score: 60.000
+(2, 60000, '2024-01-20 16:45:00'),
+
+-- Max (spielerID=3)
+(3, 7700, '2023-12-10 18:00:00'),
+(3, 8200, '2024-01-05 11:20:00'),
+
+-- Sophia (spielerID=4)
+(4, 10400, '2024-02-15 20:30:00'),
+
+-- Tom (spielerID=5)
+(5, 5900, '2023-11-25 10:00:00'),
+(5, 7300, '2024-01-30 15:45:00'),
+(5, 9000, '2024-02-10 12:10:00');

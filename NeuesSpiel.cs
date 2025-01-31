@@ -79,13 +79,32 @@ namespace SaschaKleinen
             }
 
             liSpieler = db.getSpieler();
-            spielerid = liSpieler.Find(x => x.Benutzername == spieler.Benutzername).SpielerID;
-            spieler.SpielerID = spielerid;
+
+            var foundSpieler = liSpieler.Find(x => x.Benutzername == spieler.Benutzername);
+            if (foundSpieler != null)
+            {
+                spielerid = foundSpieler.SpielerID;
+                spieler.SpielerID = spielerid;
+            }
+            else
+            {
+                MessageBox.Show("Spieler nicht gefunden.");
+                return;
+            }
 
             Spiel s = new Spiel(spieler); // Erstellt ein neues Spiel-Formular mit dem Spielernamen
-            //s.FormClosed += new FormClosedEventHandler(s_FormClosed); Event, wenn das Spiel-Formular geschlossen wird
             s.Show(); // Zeigt das Spiel-Formular an
             this.Close();
+
+            
+
+
+            
+        }
+
+        private void zurueck(object sender, EventArgs e)
+        {
+            tabControlNeuesSpiel.SelectedTab = tabPageNeuesSpiel;
         }
         #endregion
 

@@ -17,7 +17,7 @@ namespace SaschaKleinen
         private bool spielt = false;
 
         private int frageNr; // Speichert die aktuelle Antwortnummer
-        private int maxFragen = 2; // Speichert die maximale Anzahl an Fragen
+        private int maxFragen = 10; // Speichert die maximale Anzahl an Fragen
         private int streakmult; // Variable für Streak-Multiplikator
         private int maxstreak; // Variable für maximalen Streak
         private int difmult; // Variable für Schwierigkeitsgrad-Multiplikator
@@ -193,7 +193,7 @@ namespace SaschaKleinen
             StringBuilder sb = new StringBuilder();
             difmult = 0;
             setzeDifmult();
-
+            
             // Füge diesen Abschnitt hinzu, um INI-basierte Kontinente zu laden
             if (checkBoxSchwierigkeitIni.Checked)
             {
@@ -209,26 +209,52 @@ namespace SaschaKleinen
                 {
                     sb.Length -= 2;
                 }
-                liKontinente = db.difKontinente(sb.ToString());
+                try
+                {
+                    liKontinente = db.difKontinente(sb.ToString());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("1 Fehler: " + ex.Message);
+                }
+            
             }
             else if (checkBoxAlle.Checked)
             {
-                liKontinente = db.getKontinente();
+                try
+                {
+                    liKontinente = db.getKontinente();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("1 Fehler: " + ex.Message);
+                }
+                
             }
             else
             {
-                foreach (CheckBox cb in panelKontinentSingleSelect.Controls)
-                {
-                    if (cb.Checked)
+                    foreach (CheckBox cb in panelKontinentSingleSelect.Controls)
                     {
-                        sb.Append("'" + cb.Text + "'" + ", ");
+                        if (cb.Checked)
+                        {
+                            sb.Append("'" + cb.Text + "'" + ", ");
+                        }
                     }
-                }
-                if (sb.Length > 0)
-                {
-                    sb.Length -= 2;
-                }
-                liKontinente = db.difKontinente(sb.ToString());
+                    if (sb.Length > 0)
+                    {
+                        sb.Length -= 2;
+                    }
+                
+                    if(sb.ToString() != "")
+                    { 
+                        liKontinente = db.difKontinente(sb.ToString());
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wähle mindestens einen Kontinent");
+                        return;
+                    }
+                
             }
 
             tabControlSpiel.SelectedTab = tabPageFrageAntworttyp;
@@ -444,7 +470,12 @@ namespace SaschaKleinen
             IniData data = parser.ReadFile("difficulty.ini");
 
             // Wechsel von Schwierigkeitsgrad zu difficulty, weil sich das schneller schreiben lässt.
-            string difficulty = comboBoxSchwierigkeitsIni.SelectedItem.ToString();
+            string difficulty = "";
+
+            if (comboBoxSchwierigkeitsIni.SelectedItem != null)
+            {
+                difficulty = comboBoxSchwierigkeitsIni.SelectedItem.ToString();
+            }
 
             switch (difficulty)
             {
@@ -871,6 +902,7 @@ namespace SaschaKleinen
 
             checkBoxAlle.Checked = false;
             checkBoxSchwierigkeitIni.Checked = false;
+            comboBoxSchwierigkeitsIni.SelectedIndex = -1;
 
             foreach (Control ctrl in panelKontinentSingleSelect.Controls)
             {

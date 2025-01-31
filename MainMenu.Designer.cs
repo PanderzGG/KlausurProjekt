@@ -75,6 +75,7 @@
             btnBeenden.TabIndex = 3;
             btnBeenden.Text = "Beenden";
             btnBeenden.UseVisualStyleBackColor = true;
+            btnBeenden.Click += btnBeenden_Click;
             // 
             // MainMenu
             // 

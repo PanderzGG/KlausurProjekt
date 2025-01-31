@@ -177,7 +177,7 @@ namespace SaschaKleinen
         #endregion
 
         #region Insert queries
-        
+        // Insert Anweisungen 
         public void newSpieler(Spieler spieler)
         {
 

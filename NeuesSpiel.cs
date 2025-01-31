@@ -5,7 +5,7 @@ namespace SaschaKleinen
     {
         private Datenbank db = new Datenbank(); // Erstellt eine Instanz der Datenbankklasse
 
-        private List<Spieler> liSpieler; // Liste zum Speichern der Spieler
+        private List<Spieler> liSpieler;
         private bool isNeuerSpieler; // Boolescher Wert zur Unterscheidung neuer oder vorhandener Spieler
 
         // Konstruktor der NeuesSpiel-Klasse

@@ -17,7 +17,7 @@ namespace SaschaKleinen
         private bool spielt = false;
 
         private int frageNr; // Speichert die aktuelle Antwortnummer
-        private int maxFragen = 10; // Speichert die maximale Anzahl an Fragen
+        private int maxFragen = 2; // Speichert die maximale Anzahl an Fragen
         private int streakmult; // Variable für Streak-Multiplikator
         private int maxstreak; // Variable für maximalen Streak
         private int difmult; // Variable für Schwierigkeitsgrad-Multiplikator
@@ -443,6 +443,7 @@ namespace SaschaKleinen
             FileIniDataParser parser = new FileIniDataParser();
             IniData data = parser.ReadFile("difficulty.ini");
 
+            // Wechsel von Schwierigkeitsgrad zu difficulty, weil sich das schneller schreiben lässt.
             string difficulty = comboBoxSchwierigkeitsIni.SelectedItem.ToString();
 
             switch (difficulty)
@@ -790,6 +791,9 @@ namespace SaschaKleinen
             }
             else
             {
+                Highscores h = new Highscores(spieler);
+
+                h.Show();
                 this.Close();
             }
         }

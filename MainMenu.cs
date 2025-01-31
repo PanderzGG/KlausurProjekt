@@ -22,5 +22,10 @@ namespace SaschaKleinen
 
             hS.Show();
         }
+
+        private void btnBeenden_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
